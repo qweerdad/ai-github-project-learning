@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI时代GitHub开源项目实战 · AI时代GitHub开源项目实践教程</title>
+
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="assets/css/main.css">
+</head>
+<body data-page="index.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="index.html" class="current">课程首页</a><a href="chapters/course-info.html">课程说明</a><a href="chapters/faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="chapters/ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="chapters/ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="chapters/ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="chapters/ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="chapters/ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="chapters/ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="chapters/ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="chapters/ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="chapters/exercises.html">练习总览</a><a href="chapters/exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="chapters/exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="chapters/exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="chapters/exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="chapters/checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="chapters/ai-index.html">示例库导读</a><a href="chapters/ai-01.html">01 看不懂目录</a><a href="chapters/ai-02.html">02 找不到功能</a><a href="chapters/ai-03.html">03 遇到报错</a><a href="chapters/ai-04.html">04 讨论方案</a><a href="chapters/ai-05.html">05 大段重写</a><a href="chapters/ai-06.html">06 AI编造</a><a href="chapters/ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="chapters/answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="chapters/answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="chapters/license.html">来源与许可</a><a href="chapters/downloads.html">下载中心</a><a href="chapters/diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<div class="hero">
+<h1>AI时代的GitHub开源项目实战</h1>
+<p class="tagline">从看不懂源码，到借助 AI 完成开源项目复现、理解和二次开发。<br>这是一份<b>免费</b>的项目实践教程：适合学过一点编程（C/Python 均可）、但还没有独立完成过开源项目的本科生。</p>
+<div class="cta-row"><a class="btn primary" href="chapters/ch01.html">开始学习第一章 →</a><a class="btn" href="chapters/course-info.html">先查看学习准备</a><a class="btn" href="chapters/faq.html">遇到问题怎么办</a></div>
+<div class="home-progress"><span>学习进度</span><div class="bar"><i id="homeBar" data-total="8" data-pages="chapters/ch01.html,chapters/ch02.html,chapters/ch03.html,chapters/ch04.html,chapters/ch05.html,chapters/ch06.html,chapters/ch07.html,chapters/ch08.html"></i></div><span class="pct" id="homePct"></span></div>
+</div>
+<div class="meta-grid">
+<div class="meta-item"><b>适不适合我</b>会基本电脑操作、学过任意一门编程语言即可；不要求用过 GitHub、命令行或付费 AI</div>
+<div class="meta-item"><b>阅读教程只需</b>本网站——双击 index.html 已打开，离线可读，手机也能看</div>
+<div class="meta-item"><b>动手做项目需要</b>Windows 电脑 + Edge/Chrome + Python（起本地服务器）+ VS Code（可选）+ 一个免费 AI 助手</div>
+<div class="meta-item"><b>需要网络吗</b>教程网页完全离线；访问 GitHub 链接、用在线 AI、下载安装工具时需要联网</div>
+<div class="meta-item"><b>要花多久</b>约 7~10 天、每天 1~2 小时；第六章是重头，留两天以上</div>
+<div class="meta-item"><b>不需要</b>付费 AI、独立显卡、Docker、云服务器、Linux、Git 命令行（可选）</div>
+</div>
+<h2 class="home-h2">学习路线</h2>
+<div class="cards">
+<a class="card" data-p="chapters/ch01.html" href="chapters/ch01.html"><span class="c-done">✓ 已完成</span><span class="c-num">第 1 章</span><h3>学习观</h3><p>AI 时代为什么仍然要自己学会读代码、验证代码</p></a>
+<a class="card" data-p="chapters/ch02.html" href="chapters/ch02.html"><span class="c-done">✓ 已完成</span><span class="c-num">第 2 章</span><h3>认识GitHub</h3><p>仓库五要素、项目评估、ZIP/Clone 两种下载方式</p></a>
+<a class="card" data-p="chapters/ch03.html" href="chapters/ch03.html"><span class="c-done">✓ 已完成</span><span class="c-num">第 3 章</span><h3>跑起项目</h3><p>本地服务器、file:// 失效真相、README 与源码不一致</p></a>
+<a class="card" data-p="chapters/ch04.html" href="chapters/ch04.html"><span class="c-done">✓ 已完成</span><span class="c-num">第 4 章</span><h3>读懂项目</h3><p>入口定位、追踪一条完整数据流、三类文件职责</p></a>
+<a class="card" data-p="chapters/ch05.html" href="chapters/ch05.html"><span class="c-done">✓ 已完成</span><span class="c-num">第 5 章</span><h3>向AI提问</h3><p>提问公式、六大实战场景、识别 AI 幻觉</p></a>
+<a class="card" data-p="chapters/ch06.html" href="chapters/ch06.html"><span class="c-done">✓ 已完成</span><span class="c-num">第 6 章</span><h3>二次开发</h3><p>从干净原版起步，逐步实现任务备注功能</p></a>
+<a class="card" data-p="chapters/ch07.html" href="chapters/ch07.html"><span class="c-done">✓ 已完成</span><span class="c-num">第 7 章</span><h3>验证代码</h3><p>三层验证法、手动测试清单、DevTools 与回归</p></a>
+<a class="card" data-p="chapters/ch08.html" href="chapters/ch08.html"><span class="c-done">✓ 已完成</span><span class="c-num">第 8 章</span><h3>迁移方法</h3><p>分级练习 + 下一个项目的可复用流程</p></a>
+</div>
+<h2 class="home-h2">学完你能做到</h2>
+<ul>
+<li>把一个真实开源任务管理项目（TaskFlow）在自己电脑上跑起来；</li>
+<li>看懂它的主要文件和"添加任务"的完整程序流程；</li>
+<li>完成一个小型功能扩展——给任务加"备注"，并能说清每处改动；</li>
+<li>用 AI 解释代码、分析报错、讨论方案，同时知道怎么核实它说得对不对；</li>
+<li>用测试和开发者工具验证自己的修改，通过练习判断是否真的理解。</li>
+</ul>
+<div class="callout note"><span class="co-tag">实话实说</span><p>本教程教你<b>方法</b>，不承诺"学完包会"或"直接写进简历"——能走多远取决于你跟着做了多少。页面上的"已完成"勾选只是你的自我标记，不代表通过了什么考核。</p></div>
+<h2 class="home-h2">开始之前三句话</h2>
+<ul>
+<li><b>动手环节用"原始项目"</b>：先到<a href="chapters/downloads.html">下载中心</a>拿 <code>taskflow-original.zip</code>，"任务备注版"是参考答案，做完第六章再看；</li>
+<li><b>练习参考答案已单独标注</b>（侧栏带 ⚠），建议独立完成后再翻；</li>
+<li>卡住先去<a href="chapters/faq.html">「遇到问题怎么办」</a>，或按里面模板把问题发给 AI。</li>
+</ul>
+
+
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

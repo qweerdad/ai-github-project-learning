@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第五章：学会向 AI 提问，而不是只会复制提示词 · AI时代GitHub开源项目实践教程</title>
+<meta name="description" content="提问公式、六大实战场景、识别 AI 幻觉">
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/ch05.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html" class="current"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">第五章：学会向 AI 提问，而不是只会复制提示词<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout note"><span class="co-tag">说明</span>
+<p>本章约 90 分钟。这是第二个核心章节——AI 用得好不好，八成取决于你怎么问。</p>
+</div>
+<h2 id="sec-2">学习目标<a class="h-anchor" href="#sec-2">#</a></h2><p>掌握一套在任何 AI 工具上都通用的提问方法：</p>
+<ol>
+<li>描述目标而不是只说&quot;帮我弄一下&quot;；</li>
+<li>给够上下文（文件、代码、环境、版本）；</li>
+<li>把大问题拆成小问题；</li>
+<li>要求 AI 给&quot;可验证&quot;的答案；</li>
+<li>识别 AI 回答里的猜测，要求缩小修改范围；</li>
+<li>在修改之后继续追问，形成闭环。</li>
+</ol>
+<h2 id="sec-3">开始前需要<a class="h-anchor" href="#sec-3">#</a></h2><ul>
+<li>项目已跑起来（第三章）；</li>
+<li>已读第四章，知道大概结构。</li>
+</ul>
+<h2 id="sec-4">5.1 提问的通用公式<a class="h-anchor" href="#sec-4">#</a></h2><p>一个好问题 = <strong>目标</strong> + <strong>上下文</strong> + <strong>约束</strong> + <strong>期望的输出形式</strong></p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-text">❌ 烂问题：「我的代码报错了怎么办」
+   ——AI 不知道你是什么代码、什么报错、什么环境，只能瞎猜。
+
+✅ 好问题：「我在 Windows 11 + Edge 上运行一个 HTML/JS 项目。
+   用 file:// 打开 index.html 时页面能显示但 JS 不运行，
+   Console 报错：Access to script ... blocked by CORS policy。
+   我的 script 标签是 &lt;script type=&quot;module&quot; src=&quot;script.js&quot;&gt;。
+   请解释原因，并给我两种不装新软件的解决办法。」
+</code></pre></div><p>后者给了：环境（Windows/Edge/file://）、现象（页面显示但 JS 不跑）、证据（完整报错原文）、线索（type=&quot;module&quot;）、期望（解释 + 两种方案）。AI 想答错都难。</p>
+<h2 id="sec-5">5.2 六个真实场景：从烂问题到好问题<a class="h-anchor" href="#sec-5">#</a></h2><h3 id="sec-6">场景一：看不懂项目目录<a class="h-anchor" href="#sec-6">#</a></h3><p><strong>❌ 低效提问</strong>：「这个项目文件太多了，每个是干嘛的？」</p>
+<p>为什么不好：没给目录结构，AI 只能猜&quot;一般项目里 index.html 是入口&quot;这种废话。</p>
+<p><strong>✅ 改进提问</strong>：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-text">我下载了一个任务管理器开源项目，目录如下（贴文件列表）。
+我学过一点 HTML/JS。请告诉我：
+1. 浏览器实际运行需要哪几个文件；
+2. package.json、eslint.config.js 这类文件不装 Node 能跑吗；
+3. 我应该按什么顺序读这些文件。
+</code></pre></div><p><strong>你要检查什么</strong>：AI 说&quot;需要 script.js&quot;——去 <code>index.html</code> 里搜 <code>&lt;script</code> 验证；AI 说&quot;不需要 package.json&quot;——把项目复制到没有 Node 的环境试试。</p>
+<h3 id="sec-7">场景二：找不到某个功能在哪实现<a class="h-anchor" href="#sec-7">#</a></h3><p><strong>❌ 低效提问</strong>：「搜索功能在哪？」</p>
+<p><strong>✅ 改进提问</strong>：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-text">项目里有一个搜索框可以对任务做关键词过滤并高亮。
+index.html 里搜索框是 &lt;input id=&quot;search-input&quot;&gt;。
+请告诉我应该去哪个文件搜什么关键词来找它的实现，
+不要直接重写代码给我。
+</code></pre></div><p><strong>为什么要&quot;不要直接重写&quot;</strong>：你要的是<strong>定位</strong>，不是答案。AI 会告诉你搜 <code>search-input</code>、<code>handleSearch</code> 之类的线索，你自己 Ctrl+Shift+F 找到 <code>handleSearch</code> 函数和 <code>highlightSearch</code> 工具函数——找到的过程就是你学会的过程。</p>
+<p><strong>你要检查什么</strong>：AI 给的每个关键词都实际搜一遍，确认存在。</p>
+<h3 id="sec-8">场景三：遇到 JavaScript 报错<a class="h-anchor" href="#sec-8">#</a></h3><p><strong>❌ 低效提问</strong>：「报错了 [截图]/ 一堆红字」</p>
+<p><strong>✅ 改进提问</strong>：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-text">我在 Console 看到这条错误（完整粘贴原文）：
+Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')
+    at init (script.js:xxx)
+
+我检查过 script.js 第 xx 行是：
+    taskForm.addEventListener('submit', handleAddTask);
+而 index.html 里确实有 &lt;form id=&quot;task-form&quot;&gt;。
+可能是什么原因？
+</code></pre></div><p><strong>核心动作</strong>：<strong>完整复制报错原文</strong>（不是转述、不是截图描述），附上 AI 需要的那几行相关代码。</p>
+<p><strong>你要检查什么</strong>：AI 说&quot;可能是元素 ID 不匹配&quot;——去 index.html 核对 <code>id=&quot;task-form&quot;</code> 和 JS 里 <code>getElementById('task-form')</code> 是否一致。</p>
+<h3 id="sec-9">场景四：要新增功能，先讨论方案再写码<a class="h-anchor" href="#sec-9">#</a></h3><p><strong>❌ 低效提问</strong>：「帮我给任务加个备注功能，代码发我」</p>
+<p>为什么不好：AI 大概率给你一个&quot;看起来完整&quot;的大段重写——几百行新代码贴上来，你根本没法判断它改坏了什么。</p>
+<p><strong>✅ 改进提问</strong>：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-text">我在一个任务管理器项目里想加&quot;任务备注&quot;功能：
+每条任务可以附带一段备注文字，能编辑、能保存，
+搜索时也要能搜到备注内容。
+
+现状（贴 createTask 函数和任务对象结构）：
+    { id, text, completed, priority, dueDate, createdAt }
+
+请先不要写完整代码。请告诉我：
+1. 这个功能要动哪几个文件、哪几个函数；
+2. 数据上需要加什么字段；
+3. 有没有我没想到的坑（比如旧数据没有新字段怎么办）。
+</code></pre></div><p><strong>你要检查什么</strong>：AI 提到的每个函数/文件是否真的存在（第四章的方法：Ctrl+F 搜）。AI 若提到&quot;旧数据兼容&quot;这种点——这是好回答的标志，说明它在真思考。</p>
+<h3 id="sec-10">场景五：AI 给了大段重写，要求缩小范围<a class="h-anchor" href="#sec-10">#</a></h3><p><strong>典型情况</strong>：你问了个小改动，AI 回给你整个重写过的 <code>script.js</code>。</p>
+<p><strong>✅ 应对追问</strong>：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-text">这个方案改动太大了。请只给我最小改动：
+1. 列出需要修改的函数名和每个函数要加/改哪几行；
+2. 用&quot;修改前/修改后&quot;的片段形式给，不要整文件；
+3. 哪些原有行为可能受影响，需要我重点回归测试？
+</code></pre></div><p><strong>你要检查什么</strong>：把 AI 给的&quot;修改前&quot;片段和你文件里的真实代码逐字对比——<strong>如果&quot;修改前&quot;都对不上，说明 AI 在猜你的代码长什么样</strong>，这时要把真实代码贴给它纠正。</p>
+<h3 id="sec-11">场景六：AI 编造了不存在的东西<a class="h-anchor" href="#sec-11">#</a></h3><p>第四章已经见过实例：AI 说&quot;高亮由 <code>highlight()</code> 函数实现&quot;，实际是 <code>highlightSearch()</code>。这类错误的套路：AI 说的是&quot;这类功能一般叫什么&quot;，不是你项目里实际叫什么。</p>
+<p><strong>✅ 识别与纠正</strong>：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-text">我搜索了源码，没有 highlight 这个函数，
+实际找到的是 taskUtils.js 里的 highlightSearch（贴代码）。
+请基于这个真实实现重新解释搜索高亮是怎么工作的。
+</code></pre></div><p><strong>习惯</strong>：AI 提到任何&quot;函数/文件/配置项&quot;，先搜一下再采信——30 秒的 Ctrl+F 往往就能识破一次编造。</p>
+<h2 id="sec-12">5.3 两条 AI 使用路径<a class="h-anchor" href="#sec-12">#</a></h2><p>本课程设计上<strong>不依赖任何特定 AI 的付费能力</strong>：</p>
+<div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>路径</th>
+<th>你能做什么</th>
+<th>怎么用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. 普通聊天式 AI</strong></td>
+<td>粘贴代码片段/报错/目录列表提问</td>
+<td>复制相关代码 → 描述背景 → 粘贴提问 → 把建议拿回代码里核实</td>
+</tr>
+<tr>
+<td><strong>B. 能读项目的 AI 编程助手</strong></td>
+<td>让它自己读整个项目、改代码、跑命令</td>
+<td>给它任务说明 → 审查它的改动 → 自己测试验收</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>A 路线必须走通</strong>：哪怕你的&quot;AI&quot;只是一个聊天框，只要你会贴代码、会描述、会追问，本章所有方法都成立。<strong>B 是加速器不是前提</strong>：它能帮你搜代码，但&quot;改得对不对&quot;仍然要你验证——自动化越强，你越要懂 5.2 里的核实方法。</p>
+<h2 id="sec-13">5.4 修改之后怎么继续追问<a class="h-anchor" href="#sec-13">#</a></h2><p>改完代码不是对话结束，是新一轮提问开始：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-text">「我按你的建议改了 createTask 和 filterTasks（贴改后代码）。
+   现在功能能用，但我想确认：
+   1. 旧版本存进 localStorage 的任务（没有 note 字段）会不会出问题；
+   2. 备注里如果输入 &lt;script&gt;alert(1)&lt;/script&gt; 会安全吗；
+   3. 帮我想 5 个应该手动测试的场景。」
+</code></pre></div><p><strong>让 AI 帮你列测试点</strong>，你再照着逐个点一遍——这是第七章的完整方法，AI 在这里是你的&quot;测试参谋&quot;。</p>
+<h2 id="sec-14">5.5 提问质量自检清单<a class="h-anchor" href="#sec-14">#</a></h2><p>发出去之前，检查你的问题里有没有：</p>
+<ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text"><strong>目标</strong>：我到底想实现/弄清楚什么？（一句话说清）</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text"><strong>环境</strong>：操作系统、浏览器/工具版本、怎么运行的；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text"><strong>证据</strong>：报错原文、代码片段、你实际看到的现象（不是转述）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text"><strong>已试过的</strong>：你查过什么、试过什么（避免 AI 让你重复做）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text"><strong>期望形式</strong>：要解释？要方案？要最小改动？要测试点？</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text"><strong>范围约束</strong>：「不要重写整个文件」「只改一个函数」之类的护栏。</span></li>
+</ul>
+<h2 id="sec-15">常见失败及处理<a class="h-anchor" href="#sec-15">#</a></h2><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>现象</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI 回答一大段但没用上</td>
+<td>问题太大或没给上下文——拆小、贴代码重问</td>
+</tr>
+<tr>
+<td>AI 给的代码跑不通</td>
+<td>把真实报错 + 你改后的代码一起贴回去让它修，别只说&quot;不行&quot;</td>
+</tr>
+<tr>
+<td>AI 每次回答都不一样</td>
+<td>正常，它本就有随机性——以&quot;代码跑起来的结果&quot;为唯一裁判</td>
+</tr>
+<tr>
+<td>AI 让你装一堆东西</td>
+<td>追问&quot;有没有不安装新工具的办法&quot;——本课程底线是免费工具</td>
+</tr>
+<tr>
+<td>越问越糊涂</td>
+<td>停止追问，回到代码：自己读那几行，往往比第十次解释管用</td>
+</tr>
+</tbody>
+</table></div>
+<div class="verify-box"><span class="box-tag">自检问题 · 勾选状态仅保存在你的浏览器</span>
+<ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能说出&quot;好问题四要素&quot;（目标/上下文/约束/期望形式）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">知道为什么&quot;不要直接要完整代码&quot;，而要先要方案；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能举出两个&quot;AI 会编造的东西&quot;（函数名、行号、文件路径）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">知道 A/B 两条路径的差别，明确自己的主线是 A；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">发问题前会过一遍 5.5 清单。</span></li>
+</ul>
+</div>
+<div class="verify-box"><span class="box-tag">过关标准</span>
+<p>随便挑一个你还没弄懂的项目细节（比如&quot;拖拽排序怎么实现的&quot;），用本章方法写一条提问，发出去——答案里 AI 给的每个线索都能被你在源码里搜到/验证。做到即过关。</p>
+</div>
+<hr>
+<p><strong>上一章：<a href="ch04.html">第四章</a> ｜ 下一章：<a href="ch06.html">第六章：第一次二次开发</a></strong></p>
+
+<div class="done-bar"><button id="markDone" type="button">标记本章为已完成</button><span class="hint">完成状态仅保存在本机浏览器，不上传任何数据。</span></div>
+<nav class="pager"><a href="ch04.html"><span class="lbl">← 上一篇</span>第四章：利用 AI 快速理解陌生项目</a><a class="next" href="ch06.html"><span class="lbl">下一篇 →</span>第六章：第一次二次开发——给任务加"备注"功能</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">学习目标</a><a href="#sec-3" class="h2">开始前需要</a><a href="#sec-4" class="h2">5.1 提问的通用公式</a><a href="#sec-5" class="h2">5.2 六个真实场景：从烂问题到好问题</a><a href="#sec-6" class="h3">场景一：看不懂项目目录</a><a href="#sec-7" class="h3">场景二：找不到某个功能在哪实现</a><a href="#sec-8" class="h3">场景三：遇到 JavaScript 报错</a><a href="#sec-9" class="h3">场景四：要新增功能，先讨论方案再写码</a><a href="#sec-10" class="h3">场景五：AI 给了大段重写，要求缩小范围</a><a href="#sec-11" class="h3">场景六：AI 编造了不存在的东西</a><a href="#sec-12" class="h2">5.3 两条 AI 使用路径</a><a href="#sec-13" class="h2">5.4 修改之后怎么继续追问</a><a href="#sec-14" class="h2">5.5 提问质量自检清单</a><a href="#sec-15" class="h2">常见失败及处理</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

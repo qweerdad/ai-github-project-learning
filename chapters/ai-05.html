@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>案例 05：AI 给了大段重写，怎么要求缩小范围 · AI时代GitHub开源项目实践教程</title>
+
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/ai-05.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html" class="current">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">案例 05：AI 给了大段重写，怎么要求缩小范围<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout note"><span class="co-tag">导读</span>
+<p>对应第五、六章。场景：你问个小改动，AI 甩给你整个重写过的文件。</p>
+</div>
+<h2 id="sec-2">典型情况<a class="h-anchor" href="#sec-2">#</a></h2><p>你问&quot;怎么让搜索也能搜备注&quot;，AI 回了 600 行的完整 <code>script.js</code>，说&quot;替换掉原来的就行&quot;。</p>
+<p><strong>为什么危险</strong>：</p>
+<ul>
+<li>你不可能逐行审完 600 行；</li>
+<li>AI 可能顺手&quot;优化&quot;了别处、改了你没让改的逻辑；</li>
+<li>diff 巨大 = 出错点多 = 回归风险大；</li>
+<li>整文件粘贴 = 放弃学习。</li>
+</ul>
+<h2 id="sec-3" class="good">✅ 应对追问<a class="h-anchor" href="#sec-3">#</a></h2><div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">这个改动太大了，替换整文件我审不过来。
+请只给最小改动：
+1. 列出要改的函数名，每个函数里加/改哪几行；
+2. 用&quot;修改前 → 修改后&quot;的片段形式给，别整文件；
+3. 哪些原有行为可能受影响，我重点回归测什么？
+</code></pre></div><div class="ai-answer"><span class="ai-tag">AI 示范回答 · 教学构造，非真实记录</span>
+<div class="callout note"><span class="co-tag">说明</span>
+<p>只需改 <code>filterTasks</code> 一处（taskUtils.js 第 32~37 行）：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">- return tasks.filter((t) =&gt; t.text.toLowerCase().includes(q));
++ return tasks.filter((t) =&gt; t.text.toLowerCase().includes(q)
++     || (t.note || '').toLowerCase().includes(q));
+</code></pre></div><p>script.js 不用动。<strong>要回归的</strong>：原本只搜文字的行为不能变（搜不到备注的旧任务仍按文字搜）；搜索为空时要显示全部。</p>
+</div>
+</div>
+<div class="verify-box"><span class="box-tag">核实清单：AI 说了不算，逐条验证</span>
+<p><strong>把 AI 给的&quot;修改前&quot;片段，和你文件里的真实代码逐字对比</strong>：</p>
+<ul>
+<li>AI 给的&quot;修改前&quot;是 <code>t.text.toLowerCase().includes(q)</code>——打开 <code>taskUtils.js</code> 第 35 行核对，<strong>一字不差</strong>才说明 AI 是基于你的真实代码在改；</li>
+<li><strong>如果&quot;修改前&quot;和你文件里的不一样</strong>——AI 在凭记忆/通例猜你的代码。这时把真实代码贴给它：&quot;我文件里实际是 XX，请基于这个重改。&quot;</li>
+</ul>
+</div>
+<h2 id="sec-4">配套动作：用 diff 验证它到底改了多少<a class="h-anchor" href="#sec-4">#</a></h2><p>改完后跑：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">bash</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-bash">git diff --no-index 原版文件 改后文件
+</code></pre></div><p>如果 AI 说&quot;只改一行&quot;而 diff 显示改了几十行——它偷偷动了别处，逐处审查再决定保不保留。</p>
+<h2 id="sec-5">红线<a class="h-anchor" href="#sec-5">#</a></h2><p>任何&quot;帮你顺手重构了&quot;&quot;顺便优化了&quot;&quot;统一了风格&quot;的整文件输出，<strong>默认不接受</strong>。你要的是&quot;改这一处&quot;，不是&quot;把整个文件变一个样&quot;。</p>
+
+
+<nav class="pager"><a href="ai-04.html"><span class="lbl">← 上一篇</span>案例 04：要新增功能，怎么和 AI 讨论方案</a><a class="next" href="ai-06.html"><span class="lbl">下一篇 →</span>案例 06：AI 编造了不存在的东西，怎么识别和纠正</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">典型情况</a><a href="#sec-3" class="h2">应对追问</a><a href="#sec-4" class="h2">配套动作：用 diff 验证它到底改了多少</a><a href="#sec-5" class="h2">红线</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

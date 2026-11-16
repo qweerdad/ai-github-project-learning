@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>练习 C：换一个陌生项目，走完全流程 · AI时代GitHub开源项目实践教程</title>
+
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/exercise-c.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html" class="current"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">练习 C：换一个陌生项目，走完全流程<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout note"><span class="co-tag">导读</span>
+<p>难度：挑战 ｜ 预计 2~4 小时或更久 ｜ 对应第八章 8.4
+这一关没有教程领路——<strong>它才是&quot;真学会&quot;的证明</strong>。哪怕没做完，走通前五步就是大收获。</p>
+</div>
+<h2 id="sec-2">任务<a class="h-anchor" href="#sec-2">#</a></h2><p>在 GitHub 上自己找一个<strong>纯 HTML/CSS/JS</strong> 的小项目，对它有针对性地完成一次小修改，并产出一份&quot;我做了什么&quot;的报告。</p>
+<h2 id="sec-3">怎么找项目（关键词建议）<a class="h-anchor" href="#sec-3">#</a></h2><p>GitHub 搜索栏试这些组合，挑 star 几百以内、README 清晰的小项目：</p>
+<ul>
+<li><code>vanilla javascript todo</code></li>
+<li><code>vanilla javascript timer</code> / <code>pomodoro</code></li>
+<li><code>vanilla javascript quiz</code></li>
+<li><code>vanilla javascript notes</code> / <code>calculator</code> / <code>expense tracker</code></li>
+</ul>
+<p><strong>避开</strong>：需要后端/API key 的、用 React/Vue 构建的（起步太难）、文件多到数不清的。</p>
+<h2 id="sec-4">你要做的事（对照教程的五步）<a class="h-anchor" href="#sec-4">#</a></h2><ol>
+<li><strong>评估</strong>（第二章方法）：它干什么/什么技术/能不能浏览器跑/LICENSE 是什么/适不适合你。写 5 行结论；</li>
+<li><strong>复现</strong>（第三章）：Download ZIP → 本地服务器 → 跑起来 → DevTools 确认没报错；</li>
+<li><strong>读懂</strong>（第四章）：找入口、追一条数据流（比如&quot;提交/添加一次发生了什么&quot;）、画出和 TaskFlow 类似的四层图；</li>
+<li><strong>定需求 + 改</strong>（第五、六章）：给自己定一个小功能 → 让 AI 给方案 → 小步改；</li>
+<li><strong>验证</strong>（第七章）：三层手动测试 + diff 留证据。</li>
+</ol>
+<h2 id="sec-5">产出要求：一页报告<a class="h-anchor" href="#sec-5">#</a></h2><p>写不超过一页，必须包含（每条都要有具体细节，不许空话）：</p>
+<ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">项目名 + 仓库地址 + LICENSE；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">它是干什么的（一两句）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">入口文件、数据存在哪；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">我加的功能 + 动了哪几个文件；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">AI 帮了我哪几处、我亲自验证/纠正了哪几处；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">我的测试证据（哪几项、结果）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">如果再改一个功能，我会从哪开始。</span></li>
+</ul>
+<h2 id="sec-6">防卡指南<a class="h-anchor" href="#sec-6">#</a></h2><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>卡在哪</th>
+<th>回去看</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>项目选不准</td>
+<td>2.3 评估速查表</td>
+</tr>
+<tr>
+<td>跑不起来</td>
+<td>3.2 file:// 坑、3.3 服务器、7.x DevTools</td>
+</tr>
+<tr>
+<td>代码读不动</td>
+<td>第四章读码顺序</td>
+</tr>
+<tr>
+<td>AI 给的东西不敢用</td>
+<td>第五章核实方法</td>
+</tr>
+<tr>
+<td>改完不知道对不对</td>
+<td>第七章三层验证</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sec-7">评分参考（自评/师评）<a class="h-anchor" href="#sec-7">#</a></h2><ul>
+<li>报告每条都有<strong>具体</strong>细节（函数名/字段名/文件名），不是&quot;我改了一些代码&quot;这种话；</li>
+<li>能现场打开项目指出改动的那几行；</li>
+<li>测试不是&quot;我试了没问题&quot;，而是&quot;我做了 X 操作预期 Y 得到 Z&quot;。</li>
+</ul>
+<hr>
+<p><strong>这一关的意义</strong>：课程带你走完了 TaskFlow，但真实世界里没有教程陪你走第二个项目——能离开教程做，才算把方法变成自己的。</p>
+
+
+<nav class="pager"><a href="exercise-b.html"><span class="lbl">← 上一篇</span>练习 B：给任务显示"已创建多久"</a><a class="next" href="exercise-d.html"><span class="lbl">下一篇 →</span>练习 D：遇到全新项目时，怎样按需学习陌生概念</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">任务</a><a href="#sec-3" class="h2">怎么找项目（关键词建议）</a><a href="#sec-4" class="h2">你要做的事（对照教程的五步）</a><a href="#sec-5" class="h2">产出要求：一页报告</a><a href="#sec-6" class="h2">防卡指南</a><a href="#sec-7" class="h2">评分参考（自评/师评）</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

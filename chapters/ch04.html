@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第四章：利用 AI 快速理解陌生项目 · AI时代GitHub开源项目实践教程</title>
+<meta name="description" content="入口定位、追踪一条完整数据流、三类文件职责">
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/ch04.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html" class="current"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">第四章：利用 AI 快速理解陌生项目<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout note"><span class="co-tag">说明</span>
+<p>本章约 90 分钟。方法：先自己看，再让 AI 帮你看，最后自己验证。这是全课程最核心的方法章节。</p>
+</div>
+<h2 id="sec-2">学习目标<a class="h-anchor" href="#sec-2">#</a></h2><ol>
+<li>掌握&quot;先扫目录、再找入口、顺着数据流读&quot;的读码顺序；</li>
+<li>用一个真实的用户操作（添加任务），完整追踪它在代码里的路径；</li>
+<li>分清 HTML/CSS/JS 各自的职责；</li>
+<li>学会&quot;带着具体问题问 AI&quot;，而不是把整份源码丢给它；</li>
+<li>建立&quot;AI 说的要用代码验证&quot;的习惯。</li>
+</ol>
+<h2 id="sec-3">开始前需要<a class="h-anchor" href="#sec-3">#</a></h2><ul>
+<li>第三章的项目已经能在浏览器跑起来；</li>
+<li>VS Code 已打开项目文件夹；</li>
+<li>AI 聊天工具在旁边待命。</li>
+</ul>
+<h2 id="sec-4">4.1 错误姿势 vs 正确姿势<a class="h-anchor" href="#sec-4">#</a></h2><p>新手最常见的做法是：打开 <code>script.js</code>，从第一行开始逐行读，读不懂就整段贴给 AI 问&quot;这是什么意思&quot;。结果是：被 600 多行代码淹没，AI 回答了一屏幕，你还是不知道程序从哪开始。</p>
+<p><strong>读真实项目不是读课文，是查案。</strong> 正确顺序：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">① 目录扫描：每个文件大概管什么（5 分钟）
+② 找入口：程序从哪开始执行（10 分钟）
+③ 挑一条线：只追一个操作（比如&quot;添加任务&quot;）从头到尾发生了什么
+④ 按需补概念：遇到不认识的词，单独问 AI
+</code></pre></div><h2 id="sec-5">4.2 第一步：目录扫描——每个文件管什么<a class="h-anchor" href="#sec-5">#</a></h2><p>第二章已经看过目录结构，现在用代码视角再看一遍（看图回忆）：</p>
+<p><figure><img src="../assets/images/04-项目结构图.svg" alt="项目结构图"><figcaption>项目结构图</figcaption></figure></p>
+<p>真正参与运行的只有四个文件。读码策略：</p>
+<ul>
+<li><code>index.html</code>（278 行）——先看，它是&quot;地图&quot;；</li>
+<li><code>taskUtils.js</code>（79 行）——短小精悍的工具函数，好读；</li>
+<li><code>script.js</code>（640 行）——主体逻辑，<strong>不逐行读</strong>，只挑需要的看；</li>
+<li><code>style.css</code>（1055 行）——样式，最后看，只看相关片段。</li>
+</ul>
+<h2 id="sec-6">4.3 第二步：找入口——程序从哪里开始<a class="h-anchor" href="#sec-6">#</a></h2><p>打开 <code>index.html</code>，重点看两处：</p>
+<p><strong>① 页面骨架</strong>（中间部分）：能看到 <code>&lt;form id=&quot;task-form&quot;&gt;</code> 输入表单、<code>&lt;input id=&quot;search-input&quot;&gt;</code> 搜索框、<code>&lt;ul id=&quot;task-list&quot;&gt;</code> 空列表容器、筛选按钮等。<strong>HTML 只负责&quot;有什么&quot;，负责&quot;点了会怎样&quot;的是 JS。</strong></p>
+<p><strong>② 最关键的入口</strong>（文件末尾）：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">html</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-html">&lt;script type=&quot;module&quot; src=&quot;script.js&quot;&gt;&lt;/script&gt;
+</code></pre></div><p>于是去看 <code>script.js</code>。文件顶部是一个 import 声明：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">import {
+    generateId,
+    createTask,
+    filterTasks,
+    escapeHtml,
+    escapeAttr,
+    escapeRegex,
+    highlightSearch,
+    formatDueDate,
+    isOverdue,
+} from './taskUtils.js';
+</code></pre></div><p>——<code>script.js</code> 从 <code>taskUtils.js</code> 借来 9 个工具函数。再看 <code>script.js</code> 末尾，找到真正的&quot;启动键&quot;：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">function init() {
+    taskForm.addEventListener('submit', handleAddTask);
+    // ... 一堆 addEventListener ...
+    loadTasks();
+    renderTasks();
+    // ...
+}
+
+init();
+</code></pre></div><p><code>init()</code> 函数做三件事：注册所有事件监听 → <code>loadTasks()</code> 从 localStorage 读数据 → <code>renderTasks()</code> 把数据显示到页面。文件最后一行 <code>init()</code> 一执行，应用就启动了。</p>
+<div class="callout warn"><span class="co-tag">注意</span>
+<p><strong>方法</strong>：任何 JS 项目，先找&quot;谁在最后被执行&quot;。这里是 <code>init()</code>；别的项目可能是 <code>main()</code>、<code>DOMContentLoaded</code>、或框架的启动调用。找不到就问 AI：「这个 JS 文件的入口逻辑在哪里？请告诉我行号和函数名」——然后自己去那个行号核实。</p>
+</div>
+<h2 id="sec-7">4.4 第三步：追踪一条完整的数据流<a class="h-anchor" href="#sec-7">#</a></h2><p>现在做本章最重要的练习：<strong>追踪&quot;用户添加一条任务&quot;这条线</strong>。把下面的图和代码对照着看：</p>
+<p><figure><img src="../assets/images/04-数据流图.svg" alt="数据流图"><figcaption>数据流图</figcaption></figure></p>
+<p><strong>第一站：HTML 里的表单。</strong> <code>index.html</code> 中：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">html</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-html">&lt;form id=&quot;task-form&quot;&gt;
+  &lt;input id=&quot;task-input&quot; type=&quot;text&quot; placeholder=&quot;...&quot;&gt;
+  ...
+&lt;/form&gt;
+</code></pre></div><p><strong>第二站：JS 里的监听。</strong> <code>script.js</code> 的 <code>init()</code> 里：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">taskForm.addEventListener('submit', handleAddTask);
+</code></pre></div><p>意思：表单提交（回车或点 Add 按钮）时，调用 <code>handleAddTask</code>。</p>
+<p><strong>第三站：<code>handleAddTask</code> 做什么。</strong> 在 <code>script.js</code> 里找到这个函数（用 VS Code 的 Ctrl+F 搜函数名）：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">function handleAddTask(e) {
+    e.preventDefault();                    // 阻止表单默认刷新页面
+    const text = taskInput.value.trim();   // 拿到输入的文字
+    if (!text) return;                     // 空输入直接忽略
+    // 查重……
+    const task = createTask(text, priority, dueDate);  // 建任务对象
+    tasks.unshift(task);                   // 放进数组最前面
+    saveTasks();                           // 存到 localStorage
+    renderTasks();                         // 重新渲染页面
+    // ...
+}
+</code></pre></div><p><strong>第四站：<code>createTask</code> 在 <code>taskUtils.js</code> 里</strong>，负责造出一个任务对象：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">function createTask(text, priority, dueDate) {
+    return {
+        id: generateId(),
+        text: text.trim(),
+        completed: false,
+        priority,
+        dueDate,
+        createdAt: new Date().toISOString(),
+    };
+}
+</code></pre></div><p><strong>记住这个对象的结构</strong>——第六章加&quot;备注&quot;功能时，第一件事就是给它加一个字段。</p>
+<p><strong>第五站：<code>saveTasks()</code> 存数据。</strong></p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">function saveTasks() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(tasks));
+}
+</code></pre></div><p><code>STORAGE_KEY</code> 就是你在第三章 DevTools 里看到的 <code>'taskflow_tasks'</code>。<code>JSON.stringify</code> 把数组变成 JSON 字符串才能存进去。</p>
+<p><strong>第六站：<code>renderTasks()</code> 渲染页面。</strong> 它先调 <code>filterTasks(tasks, filter, searchQuery)</code> 筛出要显示的任务，再对每个任务调 <code>createTaskElement(task)</code> 生成一段 HTML 插进 <code>&lt;ul id=&quot;task-list&quot;&gt;</code>。</p>
+<p><strong>一句话总结这条线</strong>：</p>
+<div class="callout note"><span class="co-tag">说明</span>
+<p>表单提交 → JS 事件函数 → 创建任务对象 → 加入 tasks 数组 → 写入 localStorage → 重新渲染页面。</p>
+</div>
+<p><strong>输入 → 处理 → 存储 → 输出。</strong> 绝大多数应用都是这个套路，以后读任何项目都可以先找这四段。</p>
+<h2 id="sec-8">4.5 现在轮到 AI 上场：带着具体问题问<a class="h-anchor" href="#sec-8">#</a></h2><p>你已经自己追了一遍主线，接下来 AI 的正确用法是<strong>补细节、补概念</strong>，而不是替代你读。示范：</p>
+<p><strong>问概念</strong>：「<code>e.preventDefault()</code> 是干什么的？为什么在表单提交时要调用它？」——答案可以当场验证：注释掉这行刷新试试（表单提交会刷新页面、输入丢失）。</p>
+<p><strong>问关系</strong>：「在 <code>script.js</code> 里，<code>filterTasks</code> 是 <code>taskUtils.js</code> 提供的。请解释这个函数的三个参数分别干什么」——然后把 <code>taskUtils.js</code> 里的函数原文贴给它。</p>
+<p><strong>验证 AI</strong>：AI 说&quot;<code>handleAddTask</code> 在第 X 行&quot;？别信，自己 Ctrl+F 搜一下。<strong>AI 给的所有&quot;事实&quot;（行号、函数名、调用关系）都要回代码里核实。</strong> 第五章会系统讲怎么核实。</p>
+<h2 id="sec-9">4.6 一个真实的&quot;AI 犯错&quot;教学案例<a class="h-anchor" href="#sec-9">#</a></h2><div class="callout note"><span class="co-tag">说明</span>
+<p>以下为教学情境演示，所有代码均已用真实源码核验。</p>
+</div>
+<p>假如 AI 告诉你：「任务文字的高亮搜索是在 <code>renderTasks</code> 里用 <code>highlight()</code> 函数实现的。」</p>
+<p><strong>核查过程</strong>：在 <code>script.js</code> 搜 <code>highlight</code> → 没有独立定义；搜 <code>highlightSearch</code> → 它在 import 列表里 → 去 <code>taskUtils.js</code> 找到：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">function highlightSearch(text, query) {
+    if (!query) return escapeHtml(text);
+    const escaped = escapeRegex(query);
+    return escapeHtml(text).replace(
+        new RegExp(`(${escaped})`, 'gi'),
+        '&lt;mark class=&quot;search-highlight&quot;&gt;$1&lt;/mark&gt;'
+    );
+}
+</code></pre></div><p>真相：函数叫 <code>highlightSearch</code>（不是 <code>highlight</code>），而且它在 <code>createTaskElement</code> 里被调用（<code>renderTasks</code> 本身不直接碰高亮）。AI 说的函数名和调用位置<strong>两个都错</strong>。</p>
+<p><strong>教训</strong>：AI 的回答是&quot;听起来合理&quot;的概率文本，不是查过你的代码的结论。最快的验证手段是 <strong>Ctrl+F 搜源码</strong>：函数名对不对、在不在、谁调用它，30 秒就能查清。</p>
+<h2 id="sec-10">4.7 小结：一张地图在脑子里<a class="h-anchor" href="#sec-10">#</a></h2><p>读完本章，你应该能把 TaskFlow 在脑子里画成这样：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">index.html：骨架（表单/列表容器/按钮）
+   ↓ type=&quot;module&quot;
+script.js：大脑
+   ├─ 状态：tasks 数组 + filter + searchQuery（都在内存里）
+   ├─ 事件：init() 里注册的十几个监听器
+   ├─ 渲染：renderTasks → createTaskElement → innerHTML
+   └─ 存储：saveTasks / loadTasks ↔ localStorage('taskflow_tasks')
+taskUtils.js：工具箱（纯函数，不碰页面）
+style.css：外观
+</code></pre></div><h2 id="sec-11">常见失败及处理<a class="h-anchor" href="#sec-11">#</a></h2><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>现象</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>函数太多不知道从哪看</td>
+<td>只追&quot;添加任务&quot;一条线，其余函数先当黑盒</td>
+</tr>
+<tr>
+<td>AI 解释了一大堆还是懵</td>
+<td>让它&quot;用三句话说&quot;，或&quot;打个比方&quot;；还是不懂就跳过，先抓主线</td>
+</tr>
+<tr>
+<td>分不清哪个函数在哪个文件</td>
+<td>用 VS Code 全局搜索（Ctrl+Shift+F）搜函数名</td>
+</tr>
+<tr>
+<td><code>innerHTML</code>、模板字符串 <code>${}</code> 看不懂</td>
+<td>单独问 AI：「解释这段 JS 里反引号和 ${} 的用法」，这是模板字符串语法</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sec-12">本章 AI 提问示例<a class="h-anchor" href="#sec-12">#</a></h2><div class="ai-questions-section">
+<ul>
+<li>「这是 <code>taskUtils.js</code> 里的 <code>isOverdue</code> 函数（贴代码）。请解释它怎么判断任务过期，<code>new Date()</code> 比较的到底是什么。」<button class="qcopy" type="button">复制这条提问</button></li>
+<li>「<code>script.js</code> 的 <code>init()</code> 里有很多 <code>addEventListener</code>，请把它们按&quot;表单类/按钮类/键盘类&quot;分组列出来。」（贴 init 函数原文）<button class="qcopy" type="button">复制这条提问</button></li>
+<li>「我想找到&quot;拖拽排序&quot;是在哪实现的，请告诉我应该在 <code>script.js</code> 里搜哪些关键词。」——自己搜验证：<code>dragstart</code>、<code>dragover</code>、<code>drop</code>。<button class="qcopy" type="button">复制这条提问</button></li>
+</ul>
+</div>
+<div class="verify-box"><span class="box-tag">自检问题 · 勾选状态仅保存在你的浏览器</span>
+<ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">不看代码能说出&quot;添加任务&quot;经过哪几个函数；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能指出 <code>init()</code>、<code>handleAddTask</code>、<code>createTask</code>、<code>saveTasks</code>、<code>renderTasks</code> 各自在哪个文件；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">知道任务对象的 6 个字段（id/text/completed/priority/dueDate/createdAt）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能说出至少一种&quot;验证 AI 说法&quot;的办法（Ctrl+F 搜、跑起来试）。</span></li>
+</ul>
+</div>
+<div class="verify-box"><span class="box-tag">过关标准</span>
+<p>对着 <code>04-数据流图.svg</code>，能向人完整讲一遍&quot;添加一条任务&quot;和&quot;刷新页面&quot;各自发生了什么，讲的过程中能随手打开代码指出对应函数。</p>
+</div>
+<hr>
+<p><strong>上一章：<a href="ch03.html">第三章</a> ｜ 下一章：<a href="ch05.html">第五章：学会向 AI 提问</a></strong></p>
+
+<div class="done-bar"><button id="markDone" type="button">标记本章为已完成</button><span class="hint">完成状态仅保存在本机浏览器，不上传任何数据。</span></div>
+<nav class="pager"><a href="ch03.html"><span class="lbl">← 上一篇</span>第三章：让一个陌生项目第一次运行起来</a><a class="next" href="ch05.html"><span class="lbl">下一篇 →</span>第五章：学会向 AI 提问，而不是只会复制提示词</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">学习目标</a><a href="#sec-3" class="h2">开始前需要</a><a href="#sec-4" class="h2">4.1 错误姿势 vs 正确姿势</a><a href="#sec-5" class="h2">4.2 第一步：目录扫描——每个文件管什么</a><a href="#sec-6" class="h2">4.3 第二步：找入口——程序从哪里开始</a><a href="#sec-7" class="h2">4.4 第三步：追踪一条完整的数据流</a><a href="#sec-8" class="h2">4.5 现在轮到 AI 上场：带着具体问题问</a><a href="#sec-9" class="h2">4.6 一个真实的"AI 犯错"教学案例</a><a href="#sec-10" class="h2">4.7 小结：一张地图在脑子里</a><a href="#sec-11" class="h2">常见失败及处理</a><a href="#sec-12" class="h2">本章 AI 提问示例</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

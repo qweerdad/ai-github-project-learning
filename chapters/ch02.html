@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第二章：第一次认识 GitHub · AI时代GitHub开源项目实践教程</title>
+<meta name="description" content="仓库五要素、项目评估、ZIP/Clone 两种下载方式">
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/ch02.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html" class="current"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">第二章：第一次认识 GitHub<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout note"><span class="co-tag">说明</span>
+<p>本章约 45 分钟。你需要一台能上网的电脑和一个浏览器，不安装任何软件。</p>
+</div>
+<h2 id="sec-2">学习目标<a class="h-anchor" href="#sec-2">#</a></h2><ol>
+<li>说清 GitHub 是什么，以及 Repository、README、LICENSE、Issues、Commits 分别是什么；</li>
+<li>会看一个仓库的&quot;名片&quot;，判断它用什么语言、能不能在自己电脑上跑；</li>
+<li>会用几个简单信号判断项目是否适合自己的水平；</li>
+<li>学会两种把项目弄到本机的方法：Download ZIP 和 Git Clone；</li>
+<li>知道为什么要认准 LICENSE。</li>
+</ol>
+<h2 id="sec-3">开始前需要<a class="h-anchor" href="#sec-3">#</a></h2><ul>
+<li>浏览器（Edge/Chrome 都行）；</li>
+<li>不需要注册 GitHub 账号（下载公开项目不需要登录）。</li>
+</ul>
+<h2 id="sec-4">2.1 GitHub 是什么（一句话版）<a class="h-anchor" href="#sec-4">#</a></h2><p>GitHub 是全球最大的开源代码托管网站。你可以把它理解成&quot;代码的网盘 + 作品展览馆 + 协作办公室&quot;：开发者把项目源码放上去，任何人都可以看、下载，还可以在许可证允许的前提下修改和再发布。</p>
+<p>本课程使用的真实项目是：</p>
+<div class="callout note"><span class="co-tag">说明</span>
+<p><strong>TaskFlow —— 一个纯网页的任务管理器（待办清单）</strong>
+地址：<a href="https://github.com/SultanZhalifa/TaskFlow" target="_blank" rel="noopener" class="ext">https://github.com/SultanZhalifa/TaskFlow</a>
+用浏览器打开它，你会看到下面这个页面：</p>
+</div>
+<p><figure><img src="../assets/images/02-github-仓库主页.png" alt="TaskFlow 仓库主页"><figcaption>TaskFlow 仓库主页</figcaption></figure></p>
+<h2 id="sec-5">2.2 仓库主页怎么读：五个必看区域<a class="h-anchor" href="#sec-5">#</a></h2><p>打开一个陌生仓库，先别急着看代码。按固定顺序扫五个地方：</p>
+<h3 id="sec-6">① README（仓库首页下方的说明书）<a class="h-anchor" href="#sec-6">#</a></h3><p>仓库主页往下滚，自动显示 <code>README.md</code> 的内容——它是项目的&quot;自我介绍&quot;。TaskFlow 的 README 告诉我们：</p>
+<ul>
+<li>它是干什么的：<code>A client-side task manager built with vanilla HTML, CSS, and JavaScript</code>（用原生 HTML/CSS/JS 写的任务管理器，无框架、无构建步骤）；</li>
+<li>有什么功能：添加/编辑/完成任务、优先级、截止日期、拖拽排序、搜索、深色模式、数据导出；</li>
+<li>怎么跑起来：README 说 &quot;open <code>index.html</code> in any modern browser&quot;（直接打开 index.html）——<strong>注意：这个说法到第三章会发现与实际不符</strong>，那是一次很好的工程学习机会；</li>
+<li>作者自己列的 &quot;Potential improvements&quot;（可以改进的方向）——这等于官方告诉你哪里适合做二次开发。</li>
+</ul>
+<p><strong>方法结论</strong>：读 README 时只关心三个问题——它干什么？用什么写的？怎么跑起来？其余先跳过。</p>
+<h3 id="sec-7">② 文件列表和语言条（页面中上部）<a class="h-anchor" href="#sec-7">#</a></h3><p>文件列表显示了项目的全部源码文件。点&quot;语言条&quot;（About 附近显示 JavaScript/CSS/HTML 占比）可以快速判断技术栈。TaskFlow 是：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">JavaScript 59.5%   CSS 33.9%   HTML 6.6%
+</code></pre></div><p>全是我们认识的三种网页技术，没有 Python、Java、C++，意味着<strong>普通笔记本 + 浏览器就够</strong>，不需要装编译器、数据库或服务器软件。</p>
+<h3 id="sec-8">③ LICENSE（许可证）<a class="h-anchor" href="#sec-8">#</a></h3><p>文件列表里有 <code>LICENSE</code>，右侧 About 区写着 &quot;MIT license&quot;。点开它：</p>
+<p><figure><img src="../assets/images/02-github-LICENSE.png" alt="LICENSE 页面"><figcaption>LICENSE 页面</figcaption></figure></p>
+<p><strong>LICENSE 决定你能对这份代码做什么，比代码本身还先看。<strong>MIT 是最宽松的开源许可之一：允许你复制、修改、再发布，条件是保留原作者的版权声明。如果仓库</strong>没有</strong> LICENSE，不代表&quot;随便用&quot;——恰恰相反，默认版权归作者，你不应随意复制发布。</p>
+<div class="callout note"><span class="co-tag">说明</span>
+<p>本课程「下载中心」的 <code>taskflow-original.zip</code> 里保留了 LICENSE 原件，详见 <a href="license.html"><code>项目来源与许可证.md</code></a>。</p>
+</div>
+<h3 id="sec-9">④ Issues（问题讨论区）<a class="h-anchor" href="#sec-9">#</a></h3><p>顶部标签栏的 &quot;Issues&quot; 是用户和作者讨论问题、提需求的地方：</p>
+<p><figure><img src="../assets/images/02-github-Issues页.png" alt="Issues 页面"><figcaption>Issues 页面</figcaption></figure></p>
+<p>看 Issues 的意义不是刷帖子，而是判断：<strong>这个项目有人用吗？作者回应吗？有没有未解决的严重问题？</strong> TaskFlow 是个小型项目，issue 区比较安静——对小项目这很正常，不一定是坏事。</p>
+<h3 id="sec-10">⑤ Commits（提交历史）<a class="h-anchor" href="#sec-10">#</a></h3><p>点仓库主页文件列表上方的 &quot;Commits&quot;（或右边的提交计数）能看到项目的修改历史：</p>
+<p><figure><img src="../assets/images/02-github-提交历史.png" alt="提交历史"><figcaption>提交历史</figcaption></figure></p>
+<p>每一行是一次改动（叫 commit）。注意看两点：</p>
+<ul>
+<li><strong>最近一次提交的时间</strong>：项目还在维护吗？TaskFlow 最近有更新（新版功能、Dark mode 等都是后来加的）；</li>
+<li><strong>每条 commit 的说明文字</strong>：能看出项目的演进，比如 &quot;Merge feature/dark-mode&quot; 说明深色模式是后来通过分支合并加进去的。</li>
+</ul>
+<h2 id="sec-11">2.3 判断&quot;这个项目适不适合我&quot;的速查表<a class="h-anchor" href="#sec-11">#</a></h2><p>拿到任何 GitHub 仓库，用这张表打勾：</p>
+<div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>检查项</th>
+<th>合格信号</th>
+<th>警惕信号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>README 说得清用途</td>
+<td>有截图、有功能列表、有运行方法</td>
+<td>只有一句话或完全空白</td>
+</tr>
+<tr>
+<td>技术栈</td>
+<td>你认识的语言为主</td>
+<td>大量你没听过且不想碰的框架/工具链</td>
+</tr>
+<tr>
+<td>运行依赖</td>
+<td>浏览器/普通软件即可</td>
+<td>需要数据库、GPU、云服务、付费 API Key</td>
+</tr>
+<tr>
+<td>LICENSE</td>
+<td>MIT / Apache-2.0 / BSD 等明确许可</td>
+<td>没有 LICENSE，或写着仅供学习不可修改</td>
+</tr>
+<tr>
+<td>规模</td>
+<td>核心源码你能数得过来（几个到几十个文件）</td>
+<td>几千个文件、多层嵌套目录</td>
+</tr>
+<tr>
+<td>活跃度</td>
+<td>近一两年有提交，issue 有回应</td>
+<td>多年不动 + 大量未处理 bug</td>
+</tr>
+<tr>
+<td>安全性</td>
+<td>正常用途工具</td>
+<td>名字带 &quot;free premium hack&quot;&quot;cheat&quot;&quot;crack&quot; 之类，README 只有神秘外链</td>
+</tr>
+</tbody>
+</table></div>
+<p>TaskFlow 全绿：功能明确、纯网页技术、浏览器即跑、MIT 许可、核心源码四个文件、有明确的改进空间（任务备注）。这就是我们选它的理由。</p>
+<p><strong>安全提醒</strong>：不要在 GitHub 上随便下载运行来路不明的可执行文件（.exe/.bat/.ps1）。本项目的代码是网页源码，本身透明可读——这也是选网页项目入门的原因之一。</p>
+<h2 id="sec-12">2.4 把代码拿到本机：方法 A——Download ZIP（不需要装 Git）<a class="h-anchor" href="#sec-12">#</a></h2><p>这是最适合零基础的路径，和下载网盘文件一样：</p>
+<ol>
+<li>
+<p>在仓库主页，点击绿色的 <strong><code>&lt;&gt; Code</code></strong> 按钮；</p>
+</li>
+<li>
+<p>弹出菜单里点 <strong><code>Download ZIP</code></strong>：</p>
+<p><figure><img src="../assets/images/02-github-下载ZIP.png" alt="Download ZIP"><figcaption>Download ZIP</figcaption></figure></p>
+</li>
+<li>
+<p>浏览器会下载一个 <code>TaskFlow-main.zip</code>（<code>main</code> 是分支名）；</p>
+</li>
+<li>
+<p>右键解压，建议解压到一个路径简单、没有特殊字符的文件夹，比如 <code>D:\study\TaskFlow-main\</code>；</p>
+</li>
+<li>
+<p>解压后能看到 <code>index.html</code>、<code>script.js</code> 等文件，说明拿到了完整源码。</p>
+</li>
+</ol>
+<p><strong>但 ZIP 下载有一个坑要知道</strong>：它下载的是&quot;当前最新版&quot;。开源项目会更新，你下载的和我教程里的可能不是同一个版本。解决办法是认准<strong>固定版本</strong>：</p>
+<ul>
+<li>每条 commit 都有一串编号（SHA）。本课程固定使用：
+<code>40dcd30025817355c7dd96b56702820779582ebf</code>（2026-10-31，main 分支）</li>
+<li>固定版本的 ZIP 地址（把 SHA 拼进 URL）：
+<a href="https://github.com/SultanZhalifa/TaskFlow/archive/40dcd30025817355c7dd96b56702820779582ebf.zip" target="_blank" rel="noopener" class="ext">https://github.com/SultanZhalifa/TaskFlow/archive/40dcd30025817355c7dd96b56702820779582ebf.zip</a></li>
+<li>本课程「下载中心」已经打包好这个固定版本（<code>taskflow-original.zip</code>，解压得到 <code>TaskFlow-40dcd30/</code>），<strong>你可以直接用它，跳过在 GitHub 下载</strong>——保证和教程逐字一致。</li>
+</ul>
+<h2 id="sec-13">2.5 把代码拿到本机：方法 B——Git Clone（可选进阶）<a class="h-anchor" href="#sec-13">#</a></h2><p>Git 是一个版本管理工具（谁改了什么、什么时候改的，全能查）。装了 Git 之后，在文件夹里打开终端执行：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">bash</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-bash">git clone https://github.com/SultanZhalifa/TaskFlow.git
+cd TaskFlow
+git checkout 40dcd30025817355c7dd96b56702820779582ebf
+</code></pre></div><ul>
+<li>第一句：把仓库连同<strong>全部历史</strong>下载下来（ZIP 只有当前文件，没有历史）；</li>
+<li>第三句：切换到本课程固定的那个版本，保证和教程一致。</li>
+</ul>
+<p><strong>优势</strong>：能看到完整提交历史（配合 2.2 ⑤ 学到的东西验证项目的演进）；将来想给开源项目贡献代码，必须走这条路。
+<strong>代价</strong>：要装 Git、要会一点命令行。<strong>本课程主线不依赖它</strong>，可以全部学完后回来补。</p>
+<div class="callout note"><span class="co-tag">说明</span>
+<p>注意：<code>git clone</code> 需要国内网络能访问 github.com。如果下载 ZIP 都困难（网络不稳定），本课程「下载中心」的 <code>taskflow-original.zip</code> 已经是完整源码，直接进入第三章。</p>
+</div>
+<h2 id="sec-14">常见失败及处理<a class="h-anchor" href="#sec-14">#</a></h2><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>现象</th>
+<th>原因与处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>github.com 打不开或极慢</td>
+<td>网络问题。先用「下载中心」的 <code>taskflow-original.zip</code> 继续，网络好时再来体验</td>
+</tr>
+<tr>
+<td>解压后是一层套一层的文件夹</td>
+<td>正常，ZIP 会多套一层目录，往里再点一层就能看到 <code>index.html</code></td>
+</tr>
+<tr>
+<td>文件名乱码</td>
+<td>解压软件问题，换 Windows 自带解压（右键 → 全部提取）或 7-Zip</td>
+</tr>
+<tr>
+<td>找不到 Download ZIP 按钮</td>
+<td>确认在<strong>仓库主页</strong>（github.com/用户名/仓库名 这一层），不是在某个文件页面</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sec-15">本章 AI 提问示例<a class="h-anchor" href="#sec-15">#</a></h2><div class="ai-questions-section">
+<ul>
+<li>「我看到 GitHub 仓库里有 <code>package.json</code> 和 <code>package-lock.json</code>，但 README 说这个项目只需要浏览器运行。这两个文件是干什么的？不装 Node 能不能跑？」<button class="qcopy" type="button">复制这条提问</button></li>
+<li>「MIT License 允许我修改后公开发布吗？我需要保留什么？」（拿不准时也可以让 AI 把 LICENSE 原文逐句翻译给你——把文件内容贴给它）<button class="qcopy" type="button">复制这条提问</button></li>
+<li>「这个仓库（贴 README 或截图描述）适合一个只学过 C 语言、想练手的大二学生做二次开发吗？帮我按&quot;技术栈/依赖/规模/改进空间&quot;四项评估。」<button class="qcopy" type="button">复制这条提问</button></li>
+</ul>
+</div>
+<div class="verify-box"><span class="box-tag">自检问题 · 勾选状态仅保存在你的浏览器</span>
+<ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">不看笔记能说出 Repository、README、LICENSE、Issues、Commits 各是什么；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能说出判断项目是否适合自己的至少 5 个检查项；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">知道 ZIP 下载和 git clone 的区别（有/无提交历史）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">知道本课程固定的版本号是什么、为什么需要固定版本。</span></li>
+</ul>
+</div>
+<div class="verify-box"><span class="box-tag">过关标准</span>
+<p>打开任意一个陌生 GitHub 仓库（可以自己找一个试试），3 分钟内说出：它干什么、什么语言、怎么跑、LICENSE 是什么、适不适合你。五个问题答得上来就过关。</p>
+</div>
+<hr>
+<p><strong>上一章：<a href="ch01.html">第一章</a> ｜ 下一章：<a href="ch03.html">第三章：让陌生项目第一次运行起来</a></strong></p>
+
+<div class="done-bar"><button id="markDone" type="button">标记本章为已完成</button><span class="hint">完成状态仅保存在本机浏览器，不上传任何数据。</span></div>
+<nav class="pager"><a href="ch01.html"><span class="lbl">← 上一篇</span>第一章：AI时代，我们应该怎样学习编程项目？</a><a class="next" href="ch03.html"><span class="lbl">下一篇 →</span>第三章：让一个陌生项目第一次运行起来</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">学习目标</a><a href="#sec-3" class="h2">开始前需要</a><a href="#sec-4" class="h2">2.1 GitHub 是什么（一句话版）</a><a href="#sec-5" class="h2">2.2 仓库主页怎么读：五个必看区域</a><a href="#sec-6" class="h3">① README（仓库首页下方的说明书）</a><a href="#sec-7" class="h3">② 文件列表和语言条（页面中上部）</a><a href="#sec-8" class="h3">③ LICENSE（许可证）</a><a href="#sec-9" class="h3">④ Issues（问题讨论区）</a><a href="#sec-10" class="h3">⑤ Commits（提交历史）</a><a href="#sec-11" class="h2">2.3 判断"这个项目适不适合我"的速查表</a><a href="#sec-12" class="h2">2.4 把代码拿到本机：方法 A——Download ZIP（不需要装 Git）</a><a href="#sec-13" class="h2">2.5 把代码拿到本机：方法 B——Git Clone（可选进阶）</a><a href="#sec-14" class="h2">常见失败及处理</a><a href="#sec-15" class="h2">本章 AI 提问示例</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

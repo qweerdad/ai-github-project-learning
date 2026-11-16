@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 协作记录：README 说能直接打开，实际却打不开 · AI时代GitHub开源项目实践教程</title>
+
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/ai-07.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html" class="current">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">AI 协作记录：README 说能直接打开，实际却打不开<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout ai"><span class="co-tag">注意：教学示范</span>
+<p><strong>性质声明</strong>：这是<strong>教学模拟记录</strong>，不是某次真实 AI 调用的截图或转录。其中&quot;学生&quot;的观察步骤、<code>file://</code> 报错、源码位置和最终结论均来自本教程制作时对固定版本 <code>40dcd30</code> 的<strong>真实实验</strong>（第三章有对应截图：file:// 直开与 DevTools CORS 报错）；&quot;AI 的回答&quot;是按主流 AI 的典型表现构造的教学文本。步骤、证据、结论真实，对话本身为示范。</p>
+</div>
+<h2 id="sec-2">1. 最初遇到的具体问题<a class="h-anchor" href="#sec-2">#</a></h2><p>学生按 README 操作：克隆仓库后双击 <code>index.html</code>——页面<strong>看起来完全正常</strong>，没有任何报错弹窗，但所有交互都失效：输入任务按 Enter 没反应，计数器不工作。</p>
+<h2 id="sec-3">2. 学生自己先做的观察与判断<a class="h-anchor" href="#sec-3">#</a></h2><p>发问之前先做的事（顺序很重要）：</p>
+<ol>
+<li>
+<p>反复确认操作没错：确实是双击打开的、页面确实渲染了；</p>
+</li>
+<li>
+<p>看地址栏：URL 是 <code>file:///...index.html</code>——注意到<strong>不是 http 开头</strong>；</p>
+</li>
+<li>
+<p>按 F12 打开 DevTools → Console 有一条红色报错：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">Access to script at 'file:///.../script.js' from origin 'null'
+has been blocked by CORS policy: Cross origin requests are only
+supported for protocol schemes: chrome, chrome-extension,
+chrome-untrusted, data, http, https, isolated-app.
+</code></pre></div></li>
+<li>
+<p><strong>假设</strong>：页面能显示说明 HTML/CSS 加载了，失效的是 JS；报错说 <code>script.js</code> 被 CORS 拦了——而 README 说&quot;直接打开即可&quot;，两者矛盾。可能是：(a) 我环境特殊；(b) README 过时了；(c) 这个项目本来就需要服务器。</p>
+</li>
+</ol>
+<h2 id="sec-4">3. 实际发给 AI 的问题<a class="h-anchor" href="#sec-4">#</a></h2><div class="callout note"><span class="co-tag">想一想</span>
+<p>我在学习一个开源的纯前端任务管理器（HTML/CSS/JS，无框架无构建步骤）。README 写着 &quot;Clone the repository and open index.html in any modern browser&quot;。我照做后页面能渲染，但所有交互失效。</p>
+<p>证据：Edge 地址栏是 <code>file:///D:/.../index.html</code>；F12 Console 报错 <code>Access to script at 'file:///.../script.js' from origin 'null' has been blocked by CORS policy</code>。</p>
+<p>问题：为什么会这样？最小的解决办法是什么？我不想装一堆东西。</p>
+</div>
+<p>注意这条问题的构成：<strong>目标</strong>（跑起来）+ <strong>上下文</strong>（什么项目、README 怎么写的）+ <strong>证据</strong>（file:// 地址、报错原文）+ <strong>约束</strong>（最小方案）——就是第五章那个公式。</p>
+<h2 id="sec-5">4. AI 的典型回答与关键建议<a class="h-anchor" href="#sec-5">#</a></h2><div class="callout note"><span class="co-tag">说明</span>
+<p><code>index.html</code> 里多半用了 <code>&lt;script type=&quot;module&quot; src=&quot;script.js&quot;&gt;</code>。ES 模块受 CORS 策略约束，<code>file://</code> 协议的 origin 是 <code>null</code>，浏览器会拒绝加载模块脚本。HTML 和 CSS 不受影响，所以页面&quot;看起来正常&quot;。</p>
+<p>最小方案：在项目目录起一个静态服务器，让页面从 <code>http://127.0.0.1</code> 访问。Python 装了的话一条命令即可：<code>python -m http.server 8765 --bind 127.0.0.1</code>，然后访问 <code>http://127.0.0.1:8765/</code>。</p>
+</div>
+<h2 id="sec-6">5. 哪些经过了源码与运行验证（不能只听 AI）<a class="h-anchor" href="#sec-6">#</a></h2><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>AI 的说法</th>
+<th>验证方法</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>&quot;用了 <code>type=&quot;module&quot;</code>&quot;</td>
+<td>打开 <code>index.html</code> 搜 <code>script</code></td>
+<td>✅ 确有 <code>&lt;script type=&quot;module&quot; src=&quot;script.js&quot;&gt;</code></td>
+</tr>
+<tr>
+<td>&quot;file:// 下模块会被 CORS 拦&quot;</td>
+<td>与 Console 红字逐词比对</td>
+<td>✅ 报错对象正是 <code>script.js</code></td>
+</tr>
+<tr>
+<td>&quot;起本地服务器能解决&quot;</td>
+<td><code>python -m http.server --bind 127.0.0.1</code> → 访问 <code>http://127.0.0.1:8765</code></td>
+<td>✅ 交互全部恢复，Console 无报错</td>
+</tr>
+<tr>
+<td>（推论）README 写得不准确</td>
+<td>对照固定 commit 的 README 原文</td>
+<td>✅ README 确实只写了 &quot;open index.html&quot;，没提模块限制</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sec-7">6. AI 回答里需要警惕/修正的地方<a class="h-anchor" href="#sec-7">#</a></h2><p>构造的这段回答基本是准的，但实战中同类问题 AI 常犯的错：</p>
+<ul>
+<li><strong>把小概率原因排前面</strong>：有些 AI 会先说&quot;可能浏览器太旧/缓存问题，清一下缓存&quot;——如果先信了这句去清缓存，问题照旧。识别方法：它已经给了你具体机制（module + CORS），就该先验证机制而不是照单全收所有建议。</li>
+<li><strong>过度方案</strong>：有的 AI 会让你 <code>npm init</code> + <code>npm install live-server</code> + 写配置文件——对一个零依赖项目是杀鸡用牛刀。<strong>约束条件&quot;最小方案&quot;要在提问里写死</strong>。</li>
+<li><strong>README 一定对的默认假设</strong>：AI 倾向于解释&quot;README 为什么这样写&quot;，而不是指出&quot;README 和源码矛盾&quot;。这个矛盾要学生自己发现——这就是第三章把这个案例单列出来的原因。</li>
+</ul>
+<h2 id="sec-8">7. 可迁移的方法总结<a class="h-anchor" href="#sec-8">#</a></h2><div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">官方文档与实测不符时的排查链：
+文档写了什么 → 照做 → 异常现象原样记录 → 提假设 →
+带证据问 AI → 回源码搜证（Ctrl+F）→ 最小方案 → 再实测
+</code></pre></div><p>三点迁移价值：</p>
+<ol>
+<li><strong>README 不是真理，源码和运行才是</strong>——文档会过时，机器报错不会撒谎；</li>
+<li><strong>报错原文是最值钱的提问素材</strong>——<code>origin 'null'</code>、<code>CORS</code>、<code>protocol schemes</code> 三个词就把问题锁死了；</li>
+<li><strong>&quot;页面正常但功能死&quot;是 JS 没跑起来的典型症状</strong>——以后在任何项目里见到都应先查 Console。</li>
+</ol>
+<h2 id="sec-9">8. 检查清单（自己复做一遍）<a class="h-anchor" href="#sec-9">#</a></h2><ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">双击 <code>index.html</code>，观察&quot;假正常&quot;现象；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">F12 找到 CORS 红字并抄录原文；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">在 <code>index.html</code> 里搜到 <code>type=&quot;module&quot;</code> 这一行；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">用 <code>--bind 127.0.0.1</code> 起服务器后确认交互恢复；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能用一句话向同学解释：为什么 HTML 能显示而 JS 不能跑。</span></li>
+</ul>
+
+
+<nav class="pager"><a href="ai-06.html"><span class="lbl">← 上一篇</span>案例 06：AI 编造了不存在的东西，怎么识别和纠正</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">1. 最初遇到的具体问题</a><a href="#sec-3" class="h2">2. 学生自己先做的观察与判断</a><a href="#sec-4" class="h2">3. 实际发给 AI 的问题</a><a href="#sec-5" class="h2">4. AI 的典型回答与关键建议</a><a href="#sec-6" class="h2">5. 哪些经过了源码与运行验证（不能只听 AI）</a><a href="#sec-7" class="h2">6. AI 回答里需要警惕/修正的地方</a><a href="#sec-8" class="h2">7. 可迁移的方法总结</a><a href="#sec-9" class="h2">8. 检查清单（自己复做一遍）</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>案例 02：找不到某个功能在哪实现，怎么问 · AI时代GitHub开源项目实践教程</title>
+
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/ai-02.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html" class="current">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">案例 02：找不到某个功能在哪实现，怎么问<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout note"><span class="co-tag">导读</span>
+<p>对应第四章。场景：知道项目有&quot;搜索高亮&quot;功能，想知道代码在哪。</p>
+</div>
+<h2 id="sec-2" class="bad">❌ 低效问法<a class="h-anchor" href="#sec-2">#</a></h2><div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">搜索功能在哪？
+</code></pre></div><p><strong>为什么不好</strong>：AI 不知道你的项目长什么样，只能泛泛答&quot;一般在搜索框的 input 事件里&quot;——你还是找不到具体位置。</p>
+<h2 id="sec-3" class="good">✅ 改进问法<a class="h-anchor" href="#sec-3">#</a></h2><div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">我在一个任务管理器项目里看到：顶部有个搜索框，
+输入关键词后列表会过滤，匹配的文字还会黄色高亮。
+
+已知线索：
+- index.html 里搜索框是 &lt;input id=&quot;search-input&quot;&gt;
+- 项目核心是 script.js（应用逻辑）和 taskUtils.js（工具函数）
+
+请不要直接给我代码。请告诉我：
+1. 我应该去哪个文件、搜哪些关键词来定位这个功能；
+2. &quot;过滤&quot;和&quot;高亮&quot;可能是由不同的函数负责吗？
+</code></pre></div><p><strong>好在哪里</strong>：给了线索（元素 id、文件分工）、明确了&quot;不要代码要线索&quot;（约束）——定位的过程本身是你的学习目标。</p>
+<div class="ai-answer"><span class="ai-tag">AI 示范回答 · 教学构造，非真实记录</span>
+<div class="callout note"><span class="co-tag">说明</span>
+<p>建议这样找：</p>
+<ol>
+<li>在 script.js 里搜 <code>search-input</code>，找到给它绑事件的地方（可能叫 <code>handleSearch</code>）；</li>
+<li>&quot;过滤&quot;多半在筛选逻辑里——搜 <code>filterTasks</code> 或 <code>searchQuery</code>；</li>
+<li>&quot;高亮&quot;和&quot;过滤&quot;通常是分开的：过滤决定显示哪些，高亮决定怎么显示。搜 <code>highlight</code> 或 <code>&lt;mark&gt;</code>。</li>
+</ol>
+</div>
+</div>
+<div class="verify-box"><span class="box-tag">核实清单：AI 说了不算，逐条验证</span>
+<p>AI 给的每个关键词<strong>都要自己 Ctrl+Shift+F 搜一遍</strong>：</p>
+<ul>
+<li>搜 <code>search-input</code> → 找到 <code>searchInput.addEventListener('input', handleSearch)</code> ✅；</li>
+<li>搜 <code>filterTasks</code> → 在 taskUtils.js 里找到函数定义，参数里果然有 <code>searchQuery</code> ✅；</li>
+<li>搜 <code>highlight</code> → 找到 <code>highlightSearch</code>（注意：<strong>函数名是 <code>highlightSearch</code> 不是 <code>highlight</code></strong>——AI 只说对了一半）；</li>
+<li>搜 <code>&lt;mark&gt;</code> 或 <code>search-highlight</code> → 找到 CSS 里高亮样式。</li>
+</ul>
+<p><strong>这就是核实</strong>：AI 给了 4 条线索，3.5 条是对的。剩下 0.5 条错的（函数名不准）被你亲手搜出来了——这个&quot;搜出来&quot;的动作，就是第五章说的证据核查。</p>
+</div>
+<h2 id="sec-4">进一步追问<a class="h-anchor" href="#sec-4">#</a></h2><div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">找到了：过滤在 taskUtils.js 的 filterTasks，
+高亮在同文件的 highlightSearch，渲染时被 createTaskElement 调用。
+请只解释 highlightSearch 这一个函数的工作原理（贴代码）。
+</code></pre></div><p>——定位完成后，才进入&quot;理解具体函数&quot;的下一步。</p>
+
+
+<nav class="pager"><a href="ai-01.html"><span class="lbl">← 上一篇</span>案例 01：看不懂项目目录，怎么问</a><a class="next" href="ai-03.html"><span class="lbl">下一篇 →</span>案例 03：遇到 JavaScript 报错，怎么问</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">低效问法</a><a href="#sec-3" class="h2">改进问法</a><a href="#sec-4" class="h2">进一步追问</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

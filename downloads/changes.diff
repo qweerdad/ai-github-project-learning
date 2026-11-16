@@ -1,0 +1,238 @@
+--- a/taskUtils.js
++++ b/taskUtils.js
+@@ -12,6 +12,7 @@
+         completed: false,
+         priority,
+         dueDate,
++        note: '',
+         createdAt: new Date().toISOString(),
+     };
+ }
+@@ -30,7 +31,9 @@
+     }
+     if (query) {
+         const q = query.toLowerCase();
+-        filtered = filtered.filter((t) => t.text.toLowerCase().includes(q));
++        filtered = filtered.filter(
++            (t) => t.text.toLowerCase().includes(q) || (t.note || '').toLowerCase().includes(q)
++        );
+     }
+     return filtered;
+ }
+--- a/script.js
++++ b/script.js
+@@ -25,6 +25,7 @@
+ let currentFilter = 'all';
+ let searchQuery = '';
+ let editingTaskId = null;
++let editingNoteTaskId = null;
+ let draggedTaskId = null;
+ let searchDebounceTimer = null;
+ 
+@@ -165,6 +166,34 @@
+     renderTasks();
+ }
+ 
++function startEditNote(id) {
++    editingNoteTaskId = id;
++    renderTasks();
++    const noteInput = document.querySelector('.task-note-input');
++    if (noteInput) {
++        noteInput.focus();
++        noteInput.select();
++    }
++}
++
++function saveNoteTask(id, newNote) {
++    if (editingNoteTaskId !== id) return;
++    const task = tasks.find((t) => t.id === id);
++    const trimmedNote = newNote.trim();
++    if (task && (task.note || '') !== trimmedNote) {
++        task.note = trimmedNote;
++        saveTasks();
++        showToast(trimmedNote ? 'Note saved.' : 'Note removed.', 'info');
++    }
++    editingNoteTaskId = null;
++    renderTasks();
++}
++
++function cancelEditNote() {
++    editingNoteTaskId = null;
++    renderTasks();
++}
++
+ function clearCompleted() {
+     const completedCount = tasks.filter((t) => t.completed).length;
+     if (completedCount === 0) return;
+@@ -222,8 +251,8 @@
+     try {
+         const stored = localStorage.getItem(STORAGE_KEY);
+         if (stored) {
+-            // Normalize: ensure all tasks have the dueDate field
+-            tasks = JSON.parse(stored).map((t) => ({ dueDate: null, ...t }));
++            // Normalize: ensure all tasks have the dueDate and note fields
++            tasks = JSON.parse(stored).map((t) => ({ dueDate: null, note: '', ...t }));
+         }
+     } catch (error) {
+         console.error('Failed to load tasks:', error);
+@@ -382,6 +411,20 @@
+                 </span>
+                 ${buildDueDateHtml(task)}
+             </span>
++            <div class="task-note${task.note ? ' has-note' : ''}">
++                ${
++                    editingNoteTaskId === task.id
++                        ? `<input
++                            type="text"
++                            class="task-note-input"
++                            value="${escapeAttr(task.note || '')}"
++                            placeholder="Type a note, Enter to save"
++                            maxlength="200"
++                            aria-label="Task note"
++                        >`
++                        : `<button type="button" class="task-note-preview" title="Click to add or edit a note">${task.note ? escapeHtml(task.note) : '<span class="note-hint">Add note…</span>'}</button>`
++                }
++            </div>
+             <div class="task-actions">
+                 <button class="edit-btn" aria-label="Edit task" title="Edit task">
+                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+@@ -404,6 +447,24 @@
+         li.querySelector('.task-text').addEventListener('dblclick', () => startEditTask(task.id));
+         li.querySelector('.edit-btn').addEventListener('click', () => startEditTask(task.id));
+         li.querySelector('.delete-btn').addEventListener('click', () => deleteTask(task.id));
++
++        const notePreview = li.querySelector('.task-note-preview');
++        if (notePreview) {
++            notePreview.addEventListener('click', () => startEditNote(task.id));
++        }
++        const noteInput = li.querySelector('.task-note-input');
++        if (noteInput) {
++            noteInput.addEventListener('keydown', (e) => {
++                if (e.key === 'Enter') {
++                    e.preventDefault();
++                    saveNoteTask(task.id, noteInput.value);
++                } else if (e.key === 'Escape') {
++                    e.preventDefault();
++                    cancelEditNote();
++                }
++            });
++            noteInput.addEventListener('blur', () => saveNoteTask(task.id, noteInput.value));
++        }
+     }
+ 
+     return li;
+@@ -553,7 +614,7 @@
+                 }
+             }
+ 
+-            tasks = importedData.map((t) => ({ dueDate: null, ...t }));
++            tasks = importedData.map((t) => ({ dueDate: null, note: '', ...t }));
+             saveTasks();
+             renderTasks();
+             const label = tasks.length === 1 ? 'task' : 'tasks';
+@@ -615,7 +676,7 @@
+     if (e.key === 'Escape') {
+         if (editingTaskId) {
+             cancelEditTask();
+-        } else if (searchQuery) {
++        } else if (searchQuery && !editingNoteTaskId) {
+             clearSearch();
+         }
+     }
+--- a/script.test.js
++++ b/script.test.js
+@@ -51,6 +51,10 @@
+         const b = createTask('Task B');
+         expect(a.id).not.toBe(b.id);
+     });
++
++    it('starts with an empty note', () => {
++        expect(createTask('Task').note).toBe('');
++    });
+ });
+ 
+ describe('filterTasks', () => {
+@@ -99,6 +103,16 @@
+         filterTasks(tasks, 'active', '');
+         expect(tasks).toHaveLength(3);
+     });
++
++    it('matches the query against the note field too', () => {
++        const withNote = [
++            ...tasks,
++            { id: '4', text: 'Team meeting', completed: false, note: 'bring laptop' },
++        ];
++        const result = filterTasks(withNote, 'all', 'laptop');
++        expect(result).toHaveLength(1);
++        expect(result[0].id).toBe('4');
++    });
+ });
+ 
+ describe('escapeHtml', () => {
+--- a/style.css
++++ b/style.css
+@@ -502,6 +502,7 @@
+ /* ---------- Task Item ---------- */
+ .task-item {
+     display: flex;
++    flex-wrap: wrap;
+     align-items: center;
+     gap: 14px;
+     padding: 14px 18px;
+@@ -1053,3 +1054,56 @@
+         display: none;
+     }
+ }
++
++/* ---------- Task Note (tutorial feature) ---------- */
++/* 每个任务下方的一行备注：平时只读显示，点击进入编辑 */
++.task-note {
++    flex-basis: 100%;
++    margin: -6px 0 0 66px;
++    min-width: 0;
++}
++
++.task-note-preview {
++    display: block;
++    width: 100%;
++    padding: 0;
++    border: none;
++    background: none;
++    font: inherit;
++    font-size: 0.8rem;
++    line-height: 1.5;
++    color: var(--text-secondary);
++    text-align: left;
++    cursor: text;
++    white-space: nowrap;
++    overflow: hidden;
++    text-overflow: ellipsis;
++}
++
++.note-hint {
++    color: var(--text-muted);
++    font-style: italic;
++    opacity: 0.55;
++    transition: opacity var(--transition-fast);
++}
++
++.task-item:hover .note-hint {
++    opacity: 0.9;
++}
++
++.task-note-input {
++    width: 100%;
++    padding: 3px 8px;
++    font: inherit;
++    font-size: 0.8rem;
++    color: var(--text-primary);
++    background: var(--bg-secondary);
++    border: 1px solid var(--accent-primary);
++    border-radius: var(--radius-sm);
++    outline: none;
++}
++
++.task-item.completed .task-note-preview {
++    text-decoration: line-through;
++    color: var(--text-muted);
++}

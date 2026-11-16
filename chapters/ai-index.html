@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 提问示例库 · AI时代GitHub开源项目实践教程</title>
+
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/ai-index.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html" class="current">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">AI 提问示例库<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout ai"><span class="co-tag">注意：教学示范</span>
+<p>与本项目真实工作环节对应的提问案例。每个案例都包含：低效问法 → 为什么不好 → 改进问法 → 你该检查什么。</p>
+<p><strong>声明</strong>：以下为<strong>教学示范</strong>，其中 AI 的回答是为教学构造的典型回答，不是某次真实调用的记录。方法本身适用于任何 AI。</p>
+</div>
+<h2 id="sec-2">目录<a class="h-anchor" href="#sec-2">#</a></h2><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>文件</th>
+<th>对应环节</th>
+<th>训练点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>01-看不懂目录怎么问.md</code></td>
+<td>第二、四章</td>
+<td>给上下文、要阅读路线</td>
+</tr>
+<tr>
+<td><code>02-找不到功能在哪怎么问.md</code></td>
+<td>第四章</td>
+<td>要定位不要重写、自验线索</td>
+</tr>
+<tr>
+<td><code>03-遇到报错怎么问.md</code></td>
+<td>第三、七章</td>
+<td>贴原文、给环境、列已试</td>
+</tr>
+<tr>
+<td><code>04-新增功能怎么讨论方案.md</code></td>
+<td>第六章</td>
+<td>先要方案、识别坑</td>
+</tr>
+<tr>
+<td><code>05-AI给了大段重写怎么办.md</code></td>
+<td>第五、六章</td>
+<td>要求最小改动、对照&quot;修改前&quot;</td>
+</tr>
+<tr>
+<td><code>06-AI编造了不存在的东西.md</code></td>
+<td>第四、五章</td>
+<td>证据核查、纠正 AI</td>
+</tr>
+<tr>
+<td><code>07-README和实际运行不一致.md</code></td>
+<td>第三章</td>
+<td>文档≠真理、报错原文提问、逐条验证 AI</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sec-3">通用心法（第五章的浓缩版）<a class="h-anchor" href="#sec-3">#</a></h2><div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">好问题 = 目标 + 上下文 + 证据 + 约束 + 期望形式
+AI 说的每个&quot;事实&quot;（函数名/行号/文件）都要回源码搜证
+先要方案，再要最小改动，最后要测试点
+</code></pre></div><h2 id="sec-4">怎么用<a class="h-anchor" href="#sec-4">#</a></h2><ol>
+<li>对照自己当前的环节翻对应案例；</li>
+<li><strong>低效问法</strong>先读——认出自己是不是也这么问的；</li>
+<li>把<strong>改进问法</strong>里的占位换成你的真实代码/报错，发出去；</li>
+<li>拿到回答后用&quot;你该检查什么&quot;逐条核实。</li>
+</ol>
+
+
+<nav class="pager"><span></span><a class="next" href="ai-01.html"><span class="lbl">下一篇 →</span>案例 01：看不懂项目目录，怎么问</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">目录</a><a href="#sec-3" class="h2">通用心法（第五章的浓缩版）</a><a href="#sec-4" class="h2">怎么用</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

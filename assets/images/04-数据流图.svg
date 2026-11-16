@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="560" viewBox="0 0 980 560" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L8,3 L0,6 Z" fill="#333"/>
+    </marker>
+  </defs>
+  <style>
+    .box { fill: #fff; stroke: #333; stroke-width: 1.6; rx: 10; }
+    .js  { fill: #f7f7f7; stroke: #333; stroke-width: 1.6; rx: 10; }
+    .html{ fill: #eef4ff; stroke: #333; stroke-width: 1.6; rx: 10; }
+    .store{ fill: #fdf3e3; stroke: #333; stroke-width: 1.6; rx: 10; }
+    .t { font-size: 15px; fill: #111; }
+    .tt { font-size: 16px; font-weight: bold; fill: #000; }
+    .s { font-size: 12px; fill: #555; }
+    .code { font-family: Consolas, monospace; font-size: 12px; fill: #333; }
+    .sec { font-size: 14px; font-weight: bold; fill: #333; }
+  </style>
+
+  <text x="490" y="30" text-anchor="middle" class="tt" font-size="20">TaskFlow：用户添加一条任务，代码里发生了什么</text>
+
+  <!-- 用户操作 -->
+  <rect x="40" y="70" width="200" height="80" rx="10" class="box"/>
+  <text x="140" y="100" text-anchor="middle" class="tt">① 用户操作</text>
+  <text x="140" y="124" text-anchor="middle" class="s">在输入框打字</text>
+  <text x="140" y="140" text-anchor="middle" class="s">按 Enter 提交表单</text>
+
+  <!-- index.html 入口 -->
+  <rect x="40" y="200" width="200" height="90" rx="10" class="html"/>
+  <text x="140" y="228" text-anchor="middle" class="tt">index.html</text>
+  <text x="140" y="250" text-anchor="middle" class="s">页面骨架：表单/按钮/列表容器</text>
+  <text x="140" y="268" text-anchor="middle" class="code">&lt;script type="module"&gt;</text>
+
+  <!-- script.js 主逻辑 -->
+  <rect x="330" y="60" width="300" height="330" rx="10" class="js"/>
+  <text x="480" y="86" text-anchor="middle" class="tt">script.js（应用逻辑）</text>
+
+  <rect x="355" y="100" width="250" height="58" rx="8" class="box"/>
+  <text x="480" y="123" text-anchor="middle" class="t">② 事件监听捕获提交</text>
+  <text x="480" y="143" text-anchor="middle" class="code">taskForm.addEventListener('submit')</text>
+
+  <rect x="355" y="170" width="250" height="58" rx="8" class="box"/>
+  <text x="480" y="193" text-anchor="middle" class="t">③ addTask() 创建任务对象</text>
+  <text x="480" y="213" text-anchor="middle" class="code">createTask() → {id,text,priority,…}</text>
+
+  <rect x="355" y="240" width="250" height="58" rx="8" class="box"/>
+  <text x="480" y="263" text-anchor="middle" class="t">④ tasks 数组更新（内存中的数据）</text>
+  <text x="480" y="283" text-anchor="middle" class="code">tasks.unshift(task)</text>
+
+  <rect x="355" y="310" width="250" height="58" rx="8" class="box"/>
+  <text x="480" y="333" text-anchor="middle" class="t">⑤ renderTasks() 重新渲染列表</text>
+  <text x="480" y="353" text-anchor="middle" class="code">filterTasks → createTaskElement</text>
+
+  <!-- localStorage -->
+  <rect x="740" y="100" width="200" height="90" rx="10" class="store"/>
+  <text x="840" y="128" text-anchor="middle" class="tt">localStorage</text>
+  <text x="840" y="150" text-anchor="middle" class="s">浏览器内置存储</text>
+  <text x="840" y="168" text-anchor="middle" class="code">key: 'taskflow_tasks'</text>
+
+  <!-- 屏幕 -->
+  <rect x="740" y="270" width="200" height="90" rx="10" class="html"/>
+  <text x="840" y="298" text-anchor="middle" class="tt">⑥ 你在屏幕上看到</text>
+  <text x="840" y="320" text-anchor="middle" class="s">新任务出现在列表顶部</text>
+  <text x="840" y="338" text-anchor="middle" class="s">+ 右下角 toast 提示</text>
+
+  <!-- 箭头 -->
+  <line x1="140" y1="150" x2="140" y2="196" stroke="#333" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <line x1="240" y1="245" x2="355" y2="140" stroke="#333" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <line x1="480" y1="298" x2="480" y2="306" stroke="#333" stroke-width="1.6"/>
+  <line x1="630" y1="269" x2="740" y2="160" stroke="#333" stroke-width="1.6" marker-end="url(#arrow)"/>
+  <text x="690" y="200" text-anchor="middle" class="s">saveTasks()</text>
+  <line x1="630" y1="339" x2="740" y2="320" stroke="#333" stroke-width="1.6" marker-end="url(#arrow)"/>
+
+  <!-- 底部说明：刷新时 -->
+  <rect x="40" y="430" width="900" height="100" rx="10" class="html"/>
+  <text x="70" y="460" class="sec">刷新页面时（反方向）：</text>
+  <text x="70" y="486" class="t">init() → loadTasks() 从 localStorage 读出 JSON 字符串 → JSON.parse 还原成 tasks 数组 → renderTasks() 把任务画回页面</text>
+  <text x="70" y="510" class="s">这就是为什么任务"刷新后还在"——数据不在网页文件里，而在浏览器的 localStorage 里。</text>
+</svg>

@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>案例 06：AI 编造了不存在的东西，怎么识别和纠正 · AI时代GitHub开源项目实践教程</title>
+
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/ai-06.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html" class="current">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">案例 06：AI 编造了不存在的东西，怎么识别和纠正<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout warn"><span class="co-tag">注意</span>
+<p>对应第四、五章。这是识别&quot;AI 幻觉&quot;的实战训练。</p>
+</div>
+<h2 id="sec-2">什么是 AI 的&quot;编造&quot;<a class="h-anchor" href="#sec-2">#</a></h2><p>AI 的回答本质是&quot;这类问题通常的答案&quot;，不是&quot;查过你代码后的结论&quot;。所以它会信誓旦旦地说出<strong>你项目里根本不存在</strong>的：</p>
+<ul>
+<li>函数名（<code>highlight()</code> vs 实际的 <code>highlightSearch()</code>）；</li>
+<li>行号（&quot;在第 128 行&quot;——实际在 203 行）；</li>
+<li>文件路径（&quot;去 utils/helpers.js 看&quot;——你没这个文件）；</li>
+<li>配置项、API 名、参数。</li>
+</ul>
+<h2 id="sec-3">真实教学案例（已用源码核验）<a class="h-anchor" href="#sec-3">#</a></h2><p>你问&quot;搜索高亮是怎么实现的&quot;，AI 答：</p>
+<div class="callout note"><span class="co-tag">说明</span>
+<p>&quot;高亮是在 <code>renderTasks</code> 里调用 <code>highlight()</code> 函数做的。&quot;</p>
+</div>
+<p><strong>核查（30 秒）</strong>：</p>
+<ul>
+<li><code>script.js</code> 里搜 <code>highlight(</code> → 无此函数；</li>
+<li>搜 <code>highlight</code> → 只有 import 列表里的 <code>highlightSearch</code>；</li>
+<li>打开 <code>taskUtils.js</code> → 函数叫 <code>highlightSearch</code>，且它在 <code>createTaskElement</code> 里被调用，<strong>不是</strong> <code>renderTasks</code>。</li>
+</ul>
+<p><strong>结论</strong>：函数名错、调用位置错，两处都错。AI 说的是&quot;合理猜测&quot;，不是&quot;事实&quot;。</p>
+<h2 id="sec-4" class="good">✅ 识别流程（背下来）<a class="h-anchor" href="#sec-4">#</a></h2><div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">AI 提到任何&quot;具体的东西&quot;（函数/行号/文件/配置）
+   ↓
+Ctrl+Shift+F 全局搜它
+   ↓
+┌─ 搜到了 → 可信，继续
+└─ 搜不到 → 高度怀疑编造，追问纠正
+</code></pre></div><h2 id="sec-5" class="good">✅ 纠正话术<a class="h-anchor" href="#sec-5">#</a></h2><div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">我全局搜了源码，没有 highlight 这个函数，
+也没有 utils/helpers.js 这个文件。
+实际找到的是 taskUtils.js 里的 highlightSearch（贴代码），
+它在 createTaskElement 里被调用。
+请基于这个真实实现重新解释，不要再用不存在的函数名。
+</code></pre></div><p><strong>关键</strong>：纠正时<strong>带上真实代码</strong>——你不给证据，AI 可能换个说法继续编。</p>
+<h2 id="sec-6">哪类回答最该警惕<a class="h-anchor" href="#sec-6">#</a></h2><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>危险信号</th>
+<th>为什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>具体的行号、函数名、文件名</td>
+<td>AI 没见过你的代码，这些多半是猜的</td>
+</tr>
+<tr>
+<td>&quot;一般来说&quot;&quot;通常是&quot;&quot;应该是&quot;</td>
+<td>它自己在用模糊词，说明在推断而非确认</td>
+</tr>
+<tr>
+<td>过于流畅完美的解释</td>
+<td>自信 ≠ 正确，越是滴水不漏越要核</td>
+</tr>
+<tr>
+<td>和你已知事实冲突</td>
+<td>以你的代码为准，AI 错了就纠正</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sec-7">终极原则<a class="h-anchor" href="#sec-7">#</a></h2><div class="callout note"><span class="co-tag">说明</span>
+<p><strong>代码是唯一的真相来源。</strong> AI 的所有&quot;事实陈述&quot;都只是&quot;待验证线索&quot;——Ctrl+F 是你的照妖镜。</p>
+</div>
+
+
+<nav class="pager"><a href="ai-05.html"><span class="lbl">← 上一篇</span>案例 05：AI 给了大段重写，怎么要求缩小范围</a><a class="next" href="ai-07.html"><span class="lbl">下一篇 →</span>AI 协作记录：README 说能直接打开，实际却打不开</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">什么是 AI 的"编造"</a><a href="#sec-3" class="h2">真实教学案例（已用源码核验）</a><a href="#sec-4" class="h2">识别流程（背下来）</a><a href="#sec-5" class="h2">纠正话术</a><a href="#sec-6" class="h2">哪类回答最该警惕</a><a href="#sec-7" class="h2">终极原则</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

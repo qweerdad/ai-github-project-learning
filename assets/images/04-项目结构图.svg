@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="430" viewBox="0 0 980 430" font-family="Microsoft YaHei, PingFang SC, sans-serif">
+  <style>
+    .f { font-family: Consolas, monospace; font-size: 15px; fill: #222; }
+    .fd { font-family: Consolas, monospace; font-size: 15px; fill: #0b5cad; font-weight: bold; }
+    .tag { font-size: 13px; fill: #666; }
+    .hl { fill: #fff3cd; }
+    .title { font-size: 19px; font-weight: bold; }
+    .note { font-size: 13px; fill: #333; }
+  </style>
+  <text x="20" y="30" class="title">TaskFlow-40dcd30/ 目录结构与各文件职责</text>
+
+  <!-- highlight rows -->
+  <rect x="15" y="48" width="620" height="24" class="hl" rx="4"/>
+  <rect x="15" y="76" width="620" height="24" class="hl" rx="4"/>
+  <rect x="15" y="104" width="620" height="24" class="hl" rx="4"/>
+  <rect x="15" y="132" width="620" height="24" class="hl" rx="4"/>
+
+  <text x="20" y="66" class="f">├─ index.html      </text><text x="330" y="66" class="tag">页面骨架：输入框、按钮、空的任务列表（入口文件）</text>
+  <text x="20" y="94" class="f">├─ script.js       </text><text x="330" y="94" class="tag">应用逻辑：事件、状态、渲染、存取（640 行，本项目"大脑"）</text>
+  <text x="20" y="122" class="f">├─ taskUtils.js    </text><text x="330" y="122" class="tag">纯函数工具库：建任务、筛选、转义、日期（79 行）</text>
+  <text x="20" y="150" class="f">├─ style.css       </text><text x="330" y="150" class="tag">全部样式：配色、动画、暗色模式（1055 行）</text>
+  <text x="20" y="178" class="f">├─ script.test.js  </text><text x="330" y="178" class="tag">单元测试（Vitest，需在 Node 环境运行）</text>
+  <text x="20" y="206" class="f">├─ package.json    </text><text x="330" y="206" class="tag">项目信息与开发工具配置（运行页面不需要它）</text>
+  <text x="20" y="234" class="f">├─ package-lock.json</text><text x="330" y="234" class="tag">开发工具的精确版本清单</text>
+  <text x="20" y="262" class="f">├─ README.md       </text><text x="330" y="262" class="tag">项目说明书（先看它）</text>
+  <text x="20" y="290" class="f">├─ LICENSE         </text><text x="330" y="290" class="tag">MIT 许可证：允许复制、修改、再发布</text>
+  <text x="20" y="318" class="f">├─ CONTRIBUTING.md </text><text x="330" y="318" class="tag">贡献者规范（分支命名、提交信息风格）</text>
+  <text x="20" y="346" class="f">├─ eslint.config.js / .prettierrc / .editorconfig</text><text x="330" y="346" class="tag">代码风格检查工具的配置</text>
+  <text x="20" y="374" class="f">├─ .github/workflows/ci.yml</text><text x="330" y="374" class="tag">GitHub 自动检查流水线（CI）</text>
+  <text x="20" y="402" class="f">└─ .gitignore      </text><text x="330" y="402" class="tag">告诉 Git 哪些文件不用管</text>
+
+  <rect x="660" y="48" width="300" height="160" rx="10" fill="#eef4ff" stroke="#333"/>
+  <text x="680" y="80" class="note" font-weight="bold">最小运行集只有 4 个文件：</text>
+  <text x="680" y="108" class="f">index.html</text>
+  <text x="680" y="132" class="f">style.css</text>
+  <text x="680" y="156" class="f">script.js → taskUtils.js</text>
+  <text x="680" y="186" class="tag">其余文件是给开发者和自动化检查用的，</text>
+  <text x="680" y="204" class="tag">不影响浏览器里的运行。</text>
+</svg>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>案例 04：要新增功能，怎么和 AI 讨论方案 · AI时代GitHub开源项目实践教程</title>
+
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/ai-04.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html" class="current">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">案例 04：要新增功能，怎么和 AI 讨论方案<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout note"><span class="co-tag">导读</span>
+<p>对应第六章。场景：想给任务管理器加&quot;任务备注&quot;功能。</p>
+</div>
+<h2 id="sec-2" class="bad">❌ 低效问法<a class="h-anchor" href="#sec-2">#</a></h2><div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">帮我给任务加个备注功能，代码发我。
+</code></pre></div><p><strong>为什么不好</strong>：AI 会直接生成一大段&quot;看起来完整&quot;的代码，你既看不懂它改了哪、也没法判断改坏了什么。拿到即失去学习机会。</p>
+<h2 id="sec-3" class="good">✅ 改进问法<a class="h-anchor" href="#sec-3">#</a></h2><div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">我想给任务管理器加&quot;任务备注&quot;：每条任务可附一段文字，
+能查看/编辑/保存，搜索时也要能搜到备注，刷新后不丢。
+
+项目现状（贴关键代码）：
+- createTask 建的任务对象：{ id, text, completed, priority, dueDate, createdAt }
+- 数据存 localStorage，渲染靠 renderTasks → createTaskElement
+- 搜索靠 taskUtils.js 的 filterTasks（目前只搜 text）
+- 有现成的 escapeHtml / escapeAttr 转义函数
+
+请先不要写完整代码。请告诉我：
+1. 这个功能要动哪几个文件、哪几个函数；
+2. 数据上需要加什么字段、怎么兼容没有该字段的旧数据；
+3. 有没有我没想到的坑（安全、键盘冲突之类）。
+</code></pre></div><p><strong>好在哪里</strong>：把&quot;数据模型/存储/渲染/搜索/已有工具&quot;这些关键上下文都喂给了 AI，且只要<strong>方案</strong>不要代码——你才能判断方案对不对。</p>
+<div class="ai-answer"><span class="ai-tag">AI 示范回答 · 教学构造，非真实记录</span>
+<div class="callout note"><span class="co-tag">说明</span>
+<p>需要动 4 个文件：</p>
+<ul>
+<li><code>taskUtils.js</code>：<code>createTask</code> 加 <code>note:''</code> 字段；<code>filterTasks</code> 搜索时 <code>||</code> 上 note 匹配；</li>
+<li><code>script.js</code>：加 <code>editingNoteTaskId</code> 状态 + <code>startEditNote</code>/<code>saveNoteTask</code>/<code>cancelEditNote</code> 三函数；<code>createTaskElement</code> 里加备注行；<code>loadTasks</code> 和导入时给旧数据补 <code>note:''</code>；</li>
+<li><code>style.css</code>：备注行样式；</li>
+<li><code>script.test.js</code>：加测试。
+<code>index.html</code> 不用改（任务是 JS 渲染的）。
+<strong>坑</strong>：① 旧任务没 note 字段会 undefined，要兜底；② 备注必须 escapeHtml 否则 XSS；③ Escape 键会和&quot;清空搜索&quot;的全局监听冲突，要加排除条件。</li>
+</ul>
+</div>
+</div>
+<div class="verify-box"><span class="box-tag">核实清单：AI 说了不算，逐条验证</span>
+<p><strong>逐条回源码核实 AI 的方案</strong>：</p>
+<ul>
+<li>它说动这 4 个文件——去确认这些函数真的存在、真的在那些文件；</li>
+<li>它说&quot;index.html 不用改&quot;——搜 index.html 确认没有静态的备注相关模板；</li>
+<li>它提的三个坑——<strong>特别值钱</strong>，说明 AI 真在想，但你自己也要能想到（这是教学点：你能预判 AI 的坑说明你真懂了）；</li>
+<li>它若提到你没见过的函数/文件——<strong>高度警惕</strong>，可能是编的（见案例 06）。</li>
+</ul>
+</div>
+<h2 id="sec-4">拿到方案后下一步<a class="h-anchor" href="#sec-4">#</a></h2><p>方案对了，才分文件要小改动：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">方案没问题。请只给我 taskUtils.js 的改动：
+createTask 和 filterTasks，用&quot;修改前/修改后&quot;片段形式，不要整文件。
+</code></pre></div><p>——一个文件一个文件来，每改一个就手测一个。</p>
+
+
+<nav class="pager"><a href="ai-03.html"><span class="lbl">← 上一篇</span>案例 03：遇到 JavaScript 报错，怎么问</a><a class="next" href="ai-05.html"><span class="lbl">下一篇 →</span>案例 05：AI 给了大段重写，怎么要求缩小范围</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">低效问法</a><a href="#sec-3" class="h2">改进问法</a><a href="#sec-4" class="h2">拿到方案后下一步</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

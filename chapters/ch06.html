@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第六章：第一次二次开发——给任务加"备注"功能 · AI时代GitHub开源项目实践教程</title>
+<meta name="description" content="从干净原版起步，逐步实现任务备注功能">
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/ch06.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html" class="current"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">第六章：第一次二次开发——给任务加&quot;备注&quot;功能<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout note"><span class="co-tag">说明</span>
+<p>本章约 2~3 小时，是全课程最重要的动手章节。你将完成一次真实的小型二次开发：需求 → 方案 → 局部修改 → 验证。<strong>本章给出每一步的完整可复制代码和精确位置，照着做就能做出来</strong>——做完后再和「下载中心」里的参考实现（<code>taskflow-notes-edition.zip</code>）对照。</p>
+</div>
+<h2 id="sec-2">学习目标<a class="h-anchor" href="#sec-2">#</a></h2><ol>
+<li>会描述一个需求：&quot;要什么 + 不要什么&quot;；</li>
+<li>会和 AI 讨论改动方案，再动手而不是直接要代码；</li>
+<li>完成一次跨数据层 / UI 层 / 样式层 / 测试层的完整小改动；</li>
+<li>理解&quot;旧数据兼容&quot;和&quot;输入转义&quot;这两个工程细节；</li>
+<li>有 diff 可对照，能说清每一处改动为什么存在。</li>
+</ol>
+<h2 id="sec-3">开始前需要<a class="h-anchor" href="#sec-3">#</a></h2><ul>
+<li>已读懂第四章的数据流；</li>
+<li>已按 5.2 场景四的方法演练过&quot;先要方案再要代码&quot;；</li>
+<li><strong>从「下载中心」<code>taskflow-original.zip</code> 解压出的 <code>TaskFlow-40dcd30/</code> 复制一份干净副本</strong>，改名 <code>TaskFlow-我的备注版</code>——本章所有修改都对自己的副本做；</li>
+<li>本地服务器跑着自己的副本，随改随看效果。</li>
+</ul>
+<h2 id="sec-4">6.1 先定需求：我们要做什么？<a class="h-anchor" href="#sec-4">#</a></h2><p>原版 README 的 &quot;Potential improvements&quot; 第一项就是 Task notes——作者自己点名的改进方向，确认原版<strong>没有</strong>实现（可以先在源码里搜 <code>note</code> 验证：搜不到）。</p>
+<p><strong>需求定义</strong>（自己先写一遍再动手）：</p>
+<div class="callout warn"><span class="co-tag">注意</span>
+<p>每条任务可以附带一段备注文字（比如任务的相关链接、思路、截止时间详情）。备注要：</p>
+<ul>
+<li>能在任务下方查看；</li>
+<li>点击可以编辑，Enter 保存、Escape 取消；</li>
+<li>留空则删除备注；</li>
+<li>搜索关键词时也要能搜到备注内容；</li>
+<li>刷新后还在（存进 localStorage）；</li>
+<li>导出的 JSON 里也要有；</li>
+<li>备注里输入 HTML/脚本不能被执行（安全）。</li>
+</ul>
+</div>
+<p>先想清楚边界：<strong>不改</strong>任务正文的编辑逻辑、<strong>不加</strong>多行备注（保持单行、最长 200 字符，够用且不引入复杂度）。</p>
+<h2 id="sec-5">6.2 先问 AI 要方案，不要先要代码<a class="h-anchor" href="#sec-5">#</a></h2><p>按第五章的方法，把需求 + 关键代码（<code>createTask</code>、任务对象结构）贴给 AI，问：&quot;要动哪几个文件、哪几个函数、有什么坑&quot;。</p>
+<p>一份合理的方案应该长这样（这也是本教程实际采用的）：</p>
+<div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>层</th>
+<th>文件</th>
+<th>改什么</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据层</td>
+<td><code>taskUtils.js</code></td>
+<td><code>createTask</code> 返回对象加 <code>note</code> 字段；<code>filterTasks</code> 搜索时一并匹配备注</td>
+</tr>
+<tr>
+<td>逻辑层</td>
+<td><code>script.js</code></td>
+<td>加备注编辑状态变量 + 三个函数（开始编辑/保存/取消）；渲染备注行；导入旧数据时补默认字段</td>
+</tr>
+<tr>
+<td>样式层</td>
+<td><code>style.css</code></td>
+<td>备注行样式（提示态/输入态/已有备注）</td>
+</tr>
+<tr>
+<td>测试层</td>
+<td><code>script.test.js</code></td>
+<td>加针对新逻辑的单元测试</td>
+</tr>
+<tr>
+<td>不用动</td>
+<td><code>index.html</code></td>
+<td>任务行是 JS 动态渲染的，HTML 模板不用改</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>AI 可能漏掉的坑</strong>（要自己想到）：</p>
+<ol>
+<li><strong>旧数据兼容</strong>：老版本存的任务没有 <code>note</code> 字段，<code>task.note</code> 会是 <code>undefined</code>——导入/读取时要给默认值；</li>
+<li><strong>XSS 安全</strong>：备注是用户输入，必须像任务文字一样用 <code>escapeHtml</code> 转义，否则输入 <code>&lt;script&gt;</code> 会出事；</li>
+<li><strong>键盘冲突</strong>：Escape 键原本全局绑定了&quot;清空搜索&quot;——在备注输入框里按 Escape 应该是&quot;取消编辑备注&quot;而不是误伤搜索。</li>
+</ol>
+<hr>
+<h2 id="sec-6">6.3 动手：九个小步，每步都可验证<a class="h-anchor" href="#sec-6">#</a></h2><div class="callout note"><span class="co-tag">说明</span>
+<p>标记说明：【找】=在文件里搜什么定位，【位置】=代码加在哪，【验证】=这步完成后怎么检查。</p>
+</div>
+<h3 id="sec-7">第 1 步：给任务对象加 <code>note</code> 字段（taskUtils.js）<a class="h-anchor" href="#sec-7">#</a></h3><p>【找】打开 <code>taskUtils.js</code>，搜 <code>createdAt</code>，找到 <code>createTask</code> 函数的 <code>return</code> 对象（约第 10~22 行）。</p>
+<p>【位置】在 <code>dueDate,</code> 那一行<strong>之后</strong>、<code>createdAt</code> 之前加一行 <code>note: '',</code>：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">// 修改后（只多了一行 note: '',）
+export function createTask(text, priority = 'medium', dueDate = null) {
+    return {
+        id: generateId(),
+        text: text.trim(),
+        completed: false,
+        priority,
+        dueDate,
+        note: '',
+        createdAt: new Date().toISOString(),
+    };
+}
+</code></pre></div><div class="callout note"><span class="co-tag">要点</span>
+<p>为什么默认 <code>''</code> 而不是 <code>null</code>？保证&quot;一定有值&quot;，后面所有用到 <code>.note</code> 的地方不用反复判断 undefined——这就是防御性写法。</p>
+</div>
+<p>【验证】浏览器按 F12 → Console 输入 <code>import('./taskUtils.js').then(m=&gt;console.log(m.createTask('测试')))</code>——新对象里应出现 <code>note: ''</code>。（或直接做第 2 步后整体刷新看效果。）</p>
+<h3 id="sec-8">第 2 步：让搜索能搜到备注（taskUtils.js）<a class="h-anchor" href="#sec-8">#</a></h3><p>【找】同一文件搜 <code>includes(q)</code>，在 <code>filterTasks</code> 函数里（约第 33~35 行）。</p>
+<p>【位置】把那<strong>一行</strong>换成下面两行：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">// 修改前
+filtered = filtered.filter((t) =&gt; t.text.toLowerCase().includes(q));
+// 修改后
+filtered = filtered.filter(
+    (t) =&gt; t.text.toLowerCase().includes(q) || (t.note || '').toLowerCase().includes(q)
+);
+</code></pre></div><div class="callout note"><span class="co-tag">说明</span>
+<p><code>(t.note || '')</code>：旧数据没有 note 字段时回退成空字符串——6.2 说的&quot;旧数据兼容&quot;落点之一。</p>
+</div>
+<p>【验证】保存文件、刷新页面，<strong>随便输一个已存在的任务文字搜索</strong>——筛选仍然正常（说明没改坏）。备注搜索等 UI 做好后再验。</p>
+<h3 id="sec-9">第 3 步：加&quot;正在编辑哪条备注&quot;的状态（script.js）<a class="h-anchor" href="#sec-9">#</a></h3><p>【找】<code>script.js</code> 搜 <code>let editingTaskId</code>（约第 27 行）。</p>
+<p>【位置】紧挨着它下面加一行：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">let editingTaskId = null;
+let editingNoteTaskId = null;   // 正在编辑哪条任务的备注（新增）
+</code></pre></div><p>为什么需要它？同一时间只能编辑一条备注，这个变量就是&quot;正在编辑&quot;的标记，用来决定渲染输入框还是预览文字。</p>
+<h3 id="sec-10">第 4 步：加三个备注函数（script.js）<a class="h-anchor" href="#sec-10">#</a></h3><p>【找】搜 <code>function cancelEditTask</code>，找到它的<strong>结束大括号 <code>}</code></strong>（约第 163~166 行），紧跟着是 <code>function clearCompleted</code>。</p>
+<p>【位置】在 <code>cancelEditTask</code> 的 <code>}</code> 和 <code>function clearCompleted</code> <strong>之间</strong>，完整插入下面三个函数（照抄现有&quot;任务文字编辑&quot;三件套的模式，只是把操作对象换成 note）：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">function startEditNote(id) {
+    editingNoteTaskId = id;
+    renderTasks();
+    const noteInput = document.querySelector('.task-note-input');
+    if (noteInput) {
+        noteInput.focus();
+        noteInput.select();
+    }
+}
+
+function saveNoteTask(id, newNote) {
+    if (editingNoteTaskId !== id) return;
+    const task = tasks.find((t) =&gt; t.id === id);
+    const trimmedNote = newNote.trim();
+    if (task &amp;&amp; (task.note || '') !== trimmedNote) {
+        task.note = trimmedNote;
+        saveTasks();
+        showToast(trimmedNote ? 'Note saved.' : 'Note removed.', 'info');
+    }
+    editingNoteTaskId = null;
+    renderTasks();
+}
+
+function cancelEditNote() {
+    editingNoteTaskId = null;
+    renderTasks();
+}
+</code></pre></div><p>三个函数分别对应&quot;进入编辑 / 保存 / 取消&quot;——和 <code>startEditTask</code>/<code>saveEditTask</code>/<code>cancelEditTask</code> 结构一一对应。<strong>照抄现有模式是最稳的改法</strong>：风格一致、行为一致、少踩坑。</p>
+<h3 id="sec-11">第 5 步：渲染备注行（script.js · createTaskElement）<a class="h-anchor" href="#sec-11">#</a></h3><p>【找】搜 <code>buildDueDateHtml(task)</code>，在 <code>createTaskElement</code> 函数里（约第 380~385 行），能看到这样的片段：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">                ${buildDueDateHtml(task)}
+            &lt;/span&gt;
+            &lt;div class=&quot;task-actions&quot;&gt;
+</code></pre></div><p>【位置】在 <code>&lt;/span&gt;</code> 之后、<code>&lt;div class=&quot;task-actions&quot;&gt;</code> <strong>之前</strong>，插入这一整块（直接复制）：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">            &lt;div class=&quot;task-note${task.note ? ' has-note' : ''}&quot;&gt;
+                ${
+                    editingNoteTaskId === task.id
+                        ? `&lt;input
+                            type=&quot;text&quot;
+                            class=&quot;task-note-input&quot;
+                            value=&quot;${escapeAttr(task.note || '')}&quot;
+                            placeholder=&quot;Type a note, Enter to save&quot;
+                            maxlength=&quot;200&quot;
+                            aria-label=&quot;Task note&quot;
+                        &gt;`
+                        : `&lt;button type=&quot;button&quot; class=&quot;task-note-preview&quot; title=&quot;Click to add or edit a note&quot;&gt;${task.note ? escapeHtml(task.note) : '&lt;span class=&quot;note-hint&quot;&gt;Add note…&lt;/span&gt;'}&lt;/button&gt;`
+                }
+            &lt;/div&gt;
+</code></pre></div><p>读法：如果&quot;正在编辑的备注&quot;是这条任务 → 显示一个输入框（<code>value</code> 预填已有备注，<code>escapeAttr</code> 转义防引号截断）；否则显示一个可点击的预览按钮——有备注显示备注（<code>escapeHtml</code> 转义防 XSS），没备注显示灰色 &quot;Add note…&quot; 提示。</p>
+<p>【验证】刷新页面：每条任务文字下方应该出现一行灰色的 &quot;Add note…&quot;。出现 → 渲染接对了；没出现 → F12 看 Console 报错，多半是模板字符串括号没对齐。</p>
+<h3 id="sec-12">第 6 步：给备注绑事件（script.js · createTaskElement 尾部）<a class="h-anchor" href="#sec-12">#</a></h3><p>【找】搜 <code>.delete-btn').addEventListener</code>，找到这行（约第 406 行）：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">        li.querySelector('.delete-btn').addEventListener('click', () =&gt; deleteTask(task.id));
+</code></pre></div><p>【位置】在这行<strong>之后</strong>（<code>createTaskElement</code> 函数里那个 <code>else</code> 分支内），追加：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">        const notePreview = li.querySelector('.task-note-preview');
+        if (notePreview) {
+            notePreview.addEventListener('click', () =&gt; startEditNote(task.id));
+        }
+        const noteInput = li.querySelector('.task-note-input');
+        if (noteInput) {
+            noteInput.addEventListener('keydown', (e) =&gt; {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    saveNoteTask(task.id, noteInput.value);
+                } else if (e.key === 'Escape') {
+                    e.preventDefault();
+                    cancelEditNote();
+                }
+            });
+            noteInput.addEventListener('blur', () =&gt; saveNoteTask(task.id, noteInput.value));
+        }
+</code></pre></div><p>三个入口都能保存/取消：点预览进入编辑、Enter 保存、Escape 取消、<strong>输入框失焦（点别的地方）也自动保存</strong>（<code>blur</code> 事件兜底）。</p>
+<p>【验证】刷新 → 点 &quot;Add note…&quot; → 出现输入框 → 打字 → Enter → 变回文字显示 + 右下角 toast &quot;Note saved.&quot;。<strong>走到这里功能就通了</strong>，剩下是兼容性和样式。</p>
+<h3 id="sec-13">第 7 步：两处&quot;补默认值&quot;——旧数据兼容落地（script.js）<a class="h-anchor" href="#sec-13">#</a></h3><p>【找】搜 <code>dueDate: null, ...t</code> —— 有<strong>两处</strong>（<code>loadTasks</code> 里约第 226 行；<code>importTasksFromJSON</code> 里约第 556 行），长这样：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">tasks = JSON.parse(stored).map((t) =&gt; ({ dueDate: null, ...t }));
+</code></pre></div><p>【位置】两处都做同样的小改动：<code>dueDate: null</code> 后面加 <code>note: '',</code>：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">tasks = JSON.parse(stored).map((t) =&gt; ({ dueDate: null, note: '', ...t }));
+</code></pre></div><p>含义：展开旧任务数据时先铺上 <code>{note:''}</code> 默认值，旧数据里没有 <code>note</code> 就用默认的 <code>''</code>，有就保留原值。<strong>这一行救了所有老用户的旧数据。</strong>（两处都要改，漏一处导入旧备份时备注会丢。）</p>
+<h3 id="sec-14">第 8 步：Escape 键的冲突处理（script.js）<a class="h-anchor" href="#sec-14">#</a></h3><p>【找】搜 <code>clearSearch()</code> 附近的 <code>else if (searchQuery)</code>（<code>init()</code> 里的全局键盘监听，约第 618 行）：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">        } else if (searchQuery) {
+            clearSearch();
+        }
+</code></pre></div><p>【位置】给条件加一个 <code>&amp;&amp; !editingNoteTaskId</code>：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">        } else if (searchQuery &amp;&amp; !editingNoteTaskId) {
+            clearSearch();
+        }
+</code></pre></div><p>含义：<strong>正在编辑备注时按 Escape，不该顺手把搜索也清了</strong>。不改这行会引入一个隐蔽交互 bug（第 6 步里备注输入框的 Escape 会同时触发全局清空）。</p>
+<h3 id="sec-15">第 9 步：样式（style.css）<a class="h-anchor" href="#sec-15">#</a></h3><p><strong>9a</strong>：【找】搜 <code>.task-item {</code>（约第 503 行），在 <code>display: flex;</code> 下面加一行 <code>flex-wrap: wrap;</code>：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">css</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-css">.task-item {
+    display: flex;
+    flex-wrap: wrap;   /* 新增：允许备注折到下一行 */
+    align-items: center;
+    gap: 14px;
+    padding: 14px 18px;
+</code></pre></div><div class="callout note"><span class="co-tag">说明</span>
+<p>不加这行，备注会被挤在同一行里布局错乱——<code>flex-wrap</code> 让&quot;占满整行&quot;的 <code>.task-note</code> 能折下去。</p>
+</div>
+<p><strong>9b</strong>：【位置】拉到 <code>style.css</code> <strong>文件最末尾</strong>，追加整段（直接复制）：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">css</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-css">/* ---------- Task Note (tutorial feature) ---------- */
+/* 每个任务下方的一行备注：平时只读显示，点击进入编辑 */
+.task-note {
+    flex-basis: 100%;
+    margin: -6px 0 0 66px;
+    min-width: 0;
+}
+
+.task-note-preview {
+    display: block;
+    width: 100%;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: 0.8rem;
+    line-height: 1.5;
+    color: var(--text-secondary);
+    text-align: left;
+    cursor: text;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.note-hint {
+    color: var(--text-muted);
+    font-style: italic;
+    opacity: 0.55;
+    transition: opacity var(--transition-fast);
+}
+
+.task-item:hover .note-hint {
+    opacity: 0.9;
+}
+
+.task-note-input {
+    width: 100%;
+    padding: 3px 8px;
+    font: inherit;
+    font-size: 0.8rem;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--accent-primary);
+    border-radius: var(--radius-sm);
+    outline: none;
+}
+
+.task-item.completed .task-note-preview {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+</code></pre></div><p><code>margin-left: 66px</code> 是为了对齐任务文字（左边让过拖拽手柄 + 勾选框的宽度）——细节对齐很重要，不然备注会突兀地顶到最左边。</p>
+<p>【验证】刷新：每条任务下的 &quot;Add note…&quot; 应该缩进对齐任务文字、灰色小字；有备注时显示正常字色；已完成任务的备注带删除线。</p>
+<h3 id="sec-16">第 10 步（可选）：加单元测试（script.test.js）<a class="h-anchor" href="#sec-16">#</a></h3><p>装了 Node 的同学：拉到 <code>script.test.js</code> 文件末尾，追加：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">it('createTask includes a note field defaulting to empty string', () =&gt; {
+    expect(createTask('x').note).toBe('');
+});
+
+it('filterTasks matches note content too', () =&gt; {
+    const tasks = [createTask('task a'), createTask('task b')];
+    tasks[0].note = 'remember milk';
+    expect(filterTasks(tasks, 'all', 'milk')).toHaveLength(1);
+});
+</code></pre></div><p>跑 <code>npm install &amp;&amp; npm test</code>——33 个老测试 + 2 个新测试应全过。<strong>这就是回归测试的根基</strong>：新测试过了、老的也全过，才叫&quot;没改坏&quot;。</p>
+<h2 id="sec-17">6.4 每步出错怎么问 AI<a class="h-anchor" href="#sec-17">#</a></h2><p>改代码的过程中如果某一步不 work，按这个模板问（别只说&quot;不行&quot;）：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">我在给任务管理器加备注功能，刚做完第 X 步（描述做了什么）。
+现象：（看到的具体情况/截图描述）
+Console 报错原文：（如果有红字，完整复制）
+我检查过：（你验证过什么）
+请帮我定位问题，不要让我重做大改。
+</code></pre></div><p><strong>每个错误都是正常的</strong>——第九章前的学习成本里，语法对不齐、括号漏一个都是日常。卡 15 分钟先自己对照本章代码逐行查，再问 AI。</p>
+<h2 id="sec-18">6.5 改完了？diff 一下，留证据<a class="h-anchor" href="#sec-18">#</a></h2><p>你的副本和原版对比，<code>git diff</code> 一拉就知道动了多少（没有 git 的话，用 VS Code 的&quot;比较文件&quot;功能一个一个对，或直接看「下载中心」的 <code>changes.diff</code>——网页版在左侧「改动对照」）：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">bash</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-bash">git diff --no-index TaskFlow-40dcd30 TaskFlow-我的备注版 &gt; my-changes.diff
+</code></pre></div><p>参考结果：<strong>4 个文件被改、约 +137/-10 行、<code>index.html</code> 一字未动</strong>。如果你的 diff 大得离谱，多半粘了 AI 的整文件输出——回 6.3 按步骤小改。</p>
+<p><strong>和参考版对照</strong>：到「下载中心」下载 <code>taskflow-notes-edition.zip</code>，解压出 <code>TaskFlow-任务备注版/</code>，比一比你的实现。不需要逐字相同——功能正确、分层合理、关键防御（<code>note:''</code> 兜底、转义）都在，就是对的。</p>
+<h2 id="sec-19">6.6 验证：眼见为实<a class="h-anchor" href="#sec-19">#</a></h2><p>逐项验收 6.1 的需求：</p>
+<div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>需求</th>
+<th>怎么验</th>
+<th>结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查看备注</td>
+<td>任务下方出现 &quot;Add note…&quot; 提示</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>点击进入编辑</td>
+<td>变输入框、预填旧备注</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>Enter 保存 / Escape 取消</td>
+<td>分别试</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>留空删除备注</td>
+<td>输入后清空再保存 → 回到 &quot;Add note…&quot;</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>搜索能搜备注</td>
+<td>搜备注里的词 → 任务被筛出</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>刷新还在</td>
+<td>F5 → 备注还在</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>导出 JSON 有备注</td>
+<td>点 Export → 打开文件看 <code>&quot;note&quot;</code> 字段</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>XSS 安全</td>
+<td>备注输入 <code>&lt;script&gt;alert(1)&lt;/script&gt;</code> → 显示为文字，不弹窗</td>
+<td>✅</td>
+</tr>
+</tbody>
+</table></div>
+<p>三态截图（本教程的真实截图）：</p>
+<p><figure><img src="../assets/images/06-备注-提示态.png" alt="备注提示态"><figcaption>备注提示态</figcaption></figure>
+<figure><img src="../assets/images/06-备注-输入中.png" alt="备注输入中"><figcaption>备注输入中</figcaption></figure>
+<figure><img src="../assets/images/06-备注-已保存.png" alt="备注已保存"><figcaption>备注已保存</figcaption></figure></p>
+<p>修改前后对比（看任务下方多出的一行小字）：</p>
+<p><figure><img src="../assets/images/06-对比-原版.png" alt="原版"><figcaption>原版</figcaption></figure> → <figure><img src="../assets/images/06-对比-修改版.png" alt="修改版"><figcaption>修改版</figcaption></figure></p>
+<h2 id="sec-20">常见失败及处理<a class="h-anchor" href="#sec-20">#</a></h2><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>现象</th>
+<th>处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>改了代码页面没变化</td>
+<td>浏览器缓存：Ctrl+F5 强制刷新；或确认改的是正在被访问的那份文件</td>
+</tr>
+<tr>
+<td>&quot;Add note…&quot; 没出现</td>
+<td>第 5 步插入位置错了（必须在 <code>&lt;/span&gt;</code> 后 <code>.task-actions</code> 前）；Console 看 JS 报错</td>
+</tr>
+<tr>
+<td>点备注没反应</td>
+<td>第 6 步事件没绑上，或绑在 <code>if (notePreview)</code> 外；Console 报错定位</td>
+</tr>
+<tr>
+<td>备注存了刷新就没了</td>
+<td><code>saveTasks()</code> 忘了调——检查 <code>saveNoteTask</code> 里有没有这行</td>
+</tr>
+<tr>
+<td>输入 <code>&lt;</code> 直接当 HTML 渲染了</td>
+<td><code>escapeHtml</code> 漏用——所有用户输入进页面必须转义</td>
+</tr>
+<tr>
+<td>按 Escape 把搜索清了</td>
+<td>第 8 步忘了加 <code>!editingNoteTaskId</code> 条件</td>
+</tr>
+<tr>
+<td>旧任务一加载就报错</td>
+<td>旧数据没 <code>note</code> 字段——检查第 7 步两处 <code>note: ''</code> 默认值</td>
+</tr>
+</tbody>
+</table></div>
+<div class="verify-box"><span class="box-tag">自检问题 · 勾选状态仅保存在你的浏览器</span>
+<ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能说出这个功能动了哪 4 个文件、哪个文件没动；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能解释为什么 <code>createTask</code> 默认 <code>note: ''</code> 而不是 <code>null</code>；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能解释 <code>escapeHtml</code>/<code>escapeAttr</code> 分别在哪用、为什么都必须用；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能指出&quot;旧数据兼容&quot;在代码里的两个落点（第 7 步两处）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能说出为什么不重写 <code>index.html</code>；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">自己的 diff 里每一处都讲得出为什么。</span></li>
+</ul>
+</div>
+<div class="verify-box"><span class="box-tag">过关标准</span>
+<ul>
+<li>不看书能复述&quot;为什么搜索、存储、导入、UI 都要改&quot;（备注是一个<strong>贯穿数据全链路</strong>的字段）；</li>
+<li>6.6 验收表全部手测通过；</li>
+<li>第七章的测试全过。</li>
+</ul>
+</div>
+<hr>
+<p><strong>上一章：<a href="ch05.html">第五章</a> ｜ 下一章：<a href="ch07.html">第七章：学会验证 AI 生成的代码</a></strong></p>
+
+<div class="done-bar"><button id="markDone" type="button">标记本章为已完成</button><span class="hint">完成状态仅保存在本机浏览器，不上传任何数据。</span></div>
+<nav class="pager"><a href="ch05.html"><span class="lbl">← 上一篇</span>第五章：学会向 AI 提问，而不是只会复制提示词</a><a class="next" href="ch07.html"><span class="lbl">下一篇 →</span>第七章：学会验证 AI 生成的代码</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">学习目标</a><a href="#sec-3" class="h2">开始前需要</a><a href="#sec-4" class="h2">6.1 先定需求：我们要做什么？</a><a href="#sec-5" class="h2">6.2 先问 AI 要方案，不要先要代码</a><a href="#sec-6" class="h2">6.3 动手：九个小步，每步都可验证</a><a href="#sec-7" class="h3">第 1 步：给任务对象加 `note` 字段（taskUtils.js）</a><a href="#sec-8" class="h3">第 2 步：让搜索能搜到备注（taskUtils.js）</a><a href="#sec-9" class="h3">第 3 步：加"正在编辑哪条备注"的状态（script.js）</a><a href="#sec-10" class="h3">第 4 步：加三个备注函数（script.js）</a><a href="#sec-11" class="h3">第 5 步：渲染备注行（script.js · createTaskElement）</a><a href="#sec-12" class="h3">第 6 步：给备注绑事件（script.js · createTaskElement 尾部）</a><a href="#sec-13" class="h3">第 7 步：两处"补默认值"——旧数据兼容落地（script.js）</a><a href="#sec-14" class="h3">第 8 步：Escape 键的冲突处理（script.js）</a><a href="#sec-15" class="h3">第 9 步：样式（style.css）</a><a href="#sec-16" class="h3">第 10 步（可选）：加单元测试（script.test.js）</a><a href="#sec-17" class="h2">6.4 每步出错怎么问 AI</a><a href="#sec-18" class="h2">6.5 改完了？diff 一下，留证据</a><a href="#sec-19" class="h2">6.6 验证：眼见为实</a><a href="#sec-20" class="h2">常见失败及处理</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

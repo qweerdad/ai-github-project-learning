@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>案例 03：遇到 JavaScript 报错，怎么问 · AI时代GitHub开源项目实践教程</title>
+
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/ai-03.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html" class="current">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">案例 03：遇到 JavaScript 报错，怎么问<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout note"><span class="co-tag">导读</span>
+<p>对应第三、七章。场景：Console 报红字，功能不正常。</p>
+</div>
+<h2 id="sec-2" class="bad">❌ 低效问法<a class="h-anchor" href="#sec-2">#</a></h2><div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">我的代码报错了，怎么办？
+（或只发一张报错截图，不配任何文字）
+</code></pre></div><p><strong>为什么不好</strong>：AI 看不到你的代码、报错全文、环境，只能猜。截图里的报错如果没复制成文字，AI 还可能读错字符。</p>
+<h2 id="sec-3" class="good">✅ 改进问法<a class="h-anchor" href="#sec-3">#</a></h2><div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">【环境】Windows 11 + Edge，用 python -m http.server 8765 --bind 127.0.0.1 起本地服务器。
+【现象】页面能打开，但点&quot;Add&quot;按钮任务加不进去。
+【报错】Console 完整红字原文：
+    Uncaught TypeError: Cannot read properties of null (reading 'addEventListener')
+        at init (http://localhost:8765/script.js:660)
+【我查过的】script.js 第 660 行是 taskForm.addEventListener('submit', handleAddTask)；
+           index.html 里确实有 &lt;form id=&quot;task-form&quot;&gt;。
+【问题】可能是什么原因？帮我列排查顺序，不要直接给结论。
+</code></pre></div><p><strong>好在哪里</strong>：环境、现象、<strong>报错原文</strong>、你已查的、还要&quot;排查顺序&quot;而不是&quot;答案&quot;——AI 会教你查，而不是替你猜。</p>
+<div class="ai-answer"><span class="ai-tag">AI 示范回答 · 教学构造，非真实记录</span>
+<div class="callout note"><span class="co-tag">说明</span>
+<p><code>Cannot read properties of null</code> 说明 <code>taskForm</code> 拿到的是 <code>null</code>——<code>document.getElementById('task-form')</code> 没找到元素。排查顺序：</p>
+<ol>
+<li>index.html 里 <code>id=&quot;task-form&quot;</code> 有没有拼写/大小写差异（<code>taskform</code>？<code>task_form</code>？）；</li>
+<li>script.js 是不是在 HTML 元素渲染<strong>之前</strong>就执行了（<code>type=&quot;module&quot;</code> 默认 defer，一般没事，但如果你改过加载方式要查）；</li>
+<li>是不是缓存了旧版 index.html——Ctrl+F5 强刷再看。</li>
+</ol>
+</div>
+</div>
+<div class="verify-box"><span class="box-tag">核实清单：AI 说了不算，逐条验证</span>
+<ul>
+<li>对照 id：index.html <code>id=&quot;task-form&quot;</code> ↔ JS <code>getElementById('task-form')</code> 逐字符比对；</li>
+<li>强刷排除缓存；</li>
+<li>若 AI 说&quot;是 X 原因&quot;，去验证 X 是否真的成立，不是直接信。</li>
+</ul>
+</div>
+<h2 id="sec-4">关键习惯<a class="h-anchor" href="#sec-4">#</a></h2><p><strong>报错永远贴原文</strong>。<code>Cannot read properties of null (reading 'addEventListener')</code> 这一行里，<code>null</code>、<code>'addEventListener'</code>、<code>script.js:660</code> 三个信息各有用——转述成&quot;它说有个东西是空的&quot;就全丢了。</p>
+
+
+<nav class="pager"><a href="ai-02.html"><span class="lbl">← 上一篇</span>案例 02：找不到某个功能在哪实现，怎么问</a><a class="next" href="ai-04.html"><span class="lbl">下一篇 →</span>案例 04：要新增功能，怎么和 AI 讨论方案</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">低效问法</a><a href="#sec-3" class="h2">改进问法</a><a href="#sec-4" class="h2">关键习惯</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

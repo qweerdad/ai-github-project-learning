@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>练习 A：加一个"只看高优先级"的筛选按钮 · AI时代GitHub开源项目实践教程</title>
+
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/exercise-a.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html" class="current"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">练习 A：加一个&quot;只看高优先级&quot;的筛选按钮<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout spoiler"><span class="co-tag">剧透警告</span>
+<p>难度：入门 ｜ 预计 30~45 分钟 ｜ 对应第八章 8.2
+<strong>参考答案在侧栏 ⚠ 标记的「参考答案」组——先自己做，做完或对完答案要能讲清每一处。</strong></p>
+</div>
+<h2 id="sec-2">任务<a class="h-anchor" href="#sec-2">#</a></h2><p>给 TaskFlow 的任务列表加一个新筛选：点击后<strong>只显示高优先级（high）的任务</strong>。</p>
+<div class="think-box"><span class="box-tag">先弄清这些，再动手</span>
+<ul>
+<li>现在筛选项有哪几个？（提示：<code>All / Active / Completed</code> 三个按钮）</li>
+<li>筛选是靠 <code>filter</code> 这个状态变量切换的，它的值是什么？（<code>'all'/'active'/'completed'</code>）</li>
+<li>任务对象的 <code>priority</code> 字段有哪些值？</li>
+</ul>
+</div>
+<details class="hint"><summary>提示（够用了，别再要更多）</summary>
+<div class="hint-body">
+<ol>
+<li><code>index.html</code> 里三个筛选按钮都在一个 <code>&lt;div class=&quot;filters&quot;&gt;</code>（或类似容器）里——<strong>照抄一个按钮</strong>，改两点：<code>data-filter</code> 的值、按钮文字；</li>
+<li><code>script.js</code> 里 <code>setFilter</code> / <code>updateFilterCounts</code> 管筛选切换；</li>
+<li>真正决定&quot;显示哪些&quot;的是 <code>taskUtils.js</code> 的 <code>filterTasks(tasks, filter, searchQuery)</code>——<code>filter</code> 目前只认 <code>'all'/'active'/'completed'</code>，你要让它认你的新值；</li>
+<li>新值叫什么？建议 <code>'high'</code>——和 <code>priority</code> 字段的取值一致，好懂。</li>
+</ol>
+</div></details>
+<div class="verify-box"><span class="box-tag">验收标准 · 勾选状态仅保存在你的浏览器</span>
+<ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">页面上出现第四个筛选按钮；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">点它只显示 <code>priority === 'high'</code> 的任务；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">其他三个筛选依然正常；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">刷新后当前筛选不丢（若原版本来就不存筛选，可不验这条，对照原版行为即可）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text"><code>git diff</code> 里改动是小而明确的，没顺手改坏别处。</span></li>
+</ul>
+</div>
+<div class="think-box"><span class="box-tag">先独立思考，别急着抄</span>
+<ul>
+<li>新筛选值加在 <code>filterTasks</code> 里，为什么要去 <code>taskUtils.js</code> 而不是 <code>script.js</code>？（想不清看第四章&quot;纯函数 vs 页面逻辑&quot;）</li>
+<li>按钮文字想叫什么？&quot;高优先级&quot;？&quot;⭐ High&quot;？——这是个&quot;需求细节&quot;，自己定。</li>
+</ul>
+</div>
+<hr>
+<p><strong>做的时候</strong>：改一处就刷新看一眼，别攒一堆一起验。</p>
+
+
+<nav class="pager"><span></span><a class="next" href="exercise-b.html"><span class="lbl">下一篇 →</span>练习 B：给任务显示"已创建多久"</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">任务</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

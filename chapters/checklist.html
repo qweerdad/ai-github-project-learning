@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学生自检表 · AI时代GitHub开源项目实践教程</title>
+
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/checklist.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html" class="current">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">学生自检表<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout note"><span class="co-tag">说明</span>
+<p>每章做完过一遍，全打勾再进下一章。这是给你自己的，不用交。</p>
+</div>
+<h2 id="sec-2">总体进度<a class="h-anchor" href="#sec-2">#</a></h2><ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">第一章 ｜ 第二章 ｜ 第三章 ｜ 第四章 ｜ 第五章 ｜ 第六章 ｜ 第七章 ｜ 第八章</span></li>
+</ul>
+<h2 id="sec-3">分项自检<a class="h-anchor" href="#sec-3">#</a></h2><h3 id="sec-4">环境与运行（第三章后应具备）<a class="h-anchor" href="#sec-4">#</a></h3><ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能不看教程启动本地服务器并打开项目；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能说出为什么双击 index.html 不行（type=&quot;module&quot; + file:// + CORS）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">会开 DevTools 看 Console 和 localStorage；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">已做原版备份；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">加任务→刷新→还在（持久化验证过）。</span></li>
+</ul>
+<h3 id="sec-5">读码能力（第四章后应具备）<a class="h-anchor" href="#sec-5">#</a></h3><ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能指出 index.html / script.js / taskUtils.js 各自的职责；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能说出 <code>init()</code> 是入口；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能描述&quot;添加任务&quot;从表单到 localStorage 到页面的完整链路；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">知道任务对象有哪些字段；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">会用 Ctrl+Shift+F 全局搜函数。</span></li>
+</ul>
+<h3 id="sec-6">AI 使用（第五章后应具备）<a class="h-anchor" href="#sec-6">#</a></h3><ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">提问前会带上&quot;目标+环境+证据+期望形式&quot;；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">先要方案再要代码，不让 AI 整文件重写；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">AI 给的函数名/行号会回源码核实；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">遇到 AI 编的东西能识别并纠正。</span></li>
+</ul>
+<h3 id="sec-7">二次开发（第六章后应具备）<a class="h-anchor" href="#sec-7">#</a></h3><ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能说清备注功能动了哪 4 个文件、index.html 为什么没动；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能解释旧数据兼容（<code>note:''</code>）和 XSS 转义（escapeHtml/Attr）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">自己的 diff 里每一处都讲得出为什么；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">备注的查看/编辑/保存/取消/搜索/导出全手测过。</span></li>
+</ul>
+<h3 id="sec-8">验证能力（第七章后应具备）<a class="h-anchor" href="#sec-8">#</a></h3><ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">知道三层验证（能跑/功能对/没改坏）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能列出正常/边界/异常输入各几个；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">会在 Sources 打断点看变量；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能写合格的 bug 报告（步骤+预期+实际+环境）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">33 项手动测试真跑过一遍。</span></li>
+</ul>
+<h3 id="sec-9">独立迁移（第八章后应具备）<a class="h-anchor" href="#sec-9">#</a></h3><ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">练习 A、B 完成；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">练习 C 至少走通前五步；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">8.5 报告写完且每条有细节；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能脱稿说出五步流程卡。</span></li>
+</ul>
+<h2 id="sec-10">我的薄弱项（诚实写）<a class="h-anchor" href="#sec-10">#</a></h2><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>卡住的地方</th>
+<th>对应章节</th>
+<th>我打算怎么补</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>例：分不清哪个函数在哪个文件</td>
+<td>四</td>
+<td>重追一遍数据流 + 自己画一遍</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<p><strong>提醒</strong>：打勾一时爽，真不会吃亏的是自己——第八章的练习 C 会无情暴露每一个没打实的勾。</p>
+
+
+<nav class="pager"><a href="exercise-d.html"><span class="lbl">← 上一篇</span>练习 D：遇到全新项目时，怎样按需学习陌生概念</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">总体进度</a><a href="#sec-3" class="h2">分项自检</a><a href="#sec-4" class="h3">环境与运行（第三章后应具备）</a><a href="#sec-5" class="h3">读码能力（第四章后应具备）</a><a href="#sec-6" class="h3">AI 使用（第五章后应具备）</a><a href="#sec-7" class="h3">二次开发（第六章后应具备）</a><a href="#sec-8" class="h3">验证能力（第七章后应具备）</a><a href="#sec-9" class="h3">独立迁移（第八章后应具备）</a><a href="#sec-10" class="h2">我的薄弱项（诚实写）</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

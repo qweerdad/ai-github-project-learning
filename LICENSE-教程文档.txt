@@ -1,0 +1,14 @@
+AI时代GitHub开源项目实战 · 教程文档许可
+
+本教程的原创文字、练习、AI 提问示例与原创图示采用
+知识共享署名-非商业性使用 4.0 国际许可（CC BY-NC 4.0）。
+
+官方许可文本：https://creativecommons.org/licenses/by-nc/4.0/legalcode.zh-hans
+通俗说明：  https://creativecommons.org/licenses/by-nc/4.0/deed.zh-hans
+
+你可以自由分享、改编本教程内容，前提是：署名出处、仅用于非商业
+用途、不施加额外限制。商用场景不属于本许可范围。
+
+注意：本许可仅适用于教程文档部分。downloads/ 内两个源码 ZIP 中的
+代码（TaskFlow 原版与任务备注参考实现）受各自 MIT 许可证约束，
+再分发时必须保留其中的 LICENSE 文件。

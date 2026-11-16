@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>第三章：让一个陌生项目第一次运行起来 · AI时代GitHub开源项目实践教程</title>
+<meta name="description" content="本地服务器、file:// 失效真相、README 与源码不一致">
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/ch03.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html" class="current"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1 id="sec-1">第三章：让一个陌生项目第一次运行起来<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout note"><span class="co-tag">说明</span>
+<p>本章约 60~90 分钟，动手操作为主。除了把项目跑起来，你还会经历一个真实的工程情境：<strong>官方 README 的说法和实际运行结果不一致</strong>——这在开源世界里很常见，本章会教你整套应对方法。</p>
+</div>
+<h2 id="sec-2">学习目标<a class="h-anchor" href="#sec-2">#</a></h2><ol>
+<li>准备好免费工具（VS Code 可选 + Python 自带的本地服务器）；</li>
+<li>学会&quot;README 说一套、实际跑一套&quot;时的完整排查流程；</li>
+<li>亲历并理解一个真实大坑：为什么双击 <code>index.html</code> 打不开；</li>
+<li>能判断&quot;真的跑起来了&quot;和&quot;看起来跑了其实没跑&quot;；</li>
+<li>保存一份&quot;基线状态&quot;，作为之后对比修改的依据。</li>
+</ol>
+<h2 id="sec-3">开始前需要<a class="h-anchor" href="#sec-3">#</a></h2><ul>
+<li>已有 TaskFlow 源码：从「下载中心」下载 <code>taskflow-original.zip</code> 解压得到的 <code>TaskFlow-40dcd30/</code>，或按第二章自己下载解压的版本；</li>
+<li>Windows 电脑一台；浏览器一个；</li>
+<li><strong>Python</strong>（用来开本地服务器，免费，<a href="https://www.python.org/downloads/" target="_blank" rel="noopener" class="ext">官网下载</a>，安装时记得勾 &quot;Add Python to PATH&quot;）。如果装了 Node.js 也可以用它，二选一即可。</li>
+</ul>
+<h2 id="sec-4">3.1 先找到&quot;入口文件&quot;——照 README 说的做<a class="h-anchor" href="#sec-4">#</a></h2><p>解压后的项目长这样：</p>
+<p><figure><img src="../assets/images/03-资源管理器-解压后.png" alt="解压后的目录"><figcaption>解压后的目录</figcaption></figure></p>
+<p>新手面对一堆文件，第一反应是看 README 的 &quot;Getting started&quot; 一节。TaskFlow 的 README 原文写的是：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">Clone the repository and open `index.html` in any modern browser:
+
+git clone https://github.com/SultanZhalifa/taskflow.git
+cd taskflow
+open index.html        # macOS
+start index.html       # Windows
+xdg-open index.html    # Linux
+</code></pre></div><p>意思很直白：<strong>在浏览器里直接打开 <code>index.html</code></strong>。Windows 下 <code>start index.html</code> 的效果，和你在文件夹里<strong>双击</strong> <code>index.html</code> 一模一样。</p>
+<p>回顾各文件分工（第四章会细看）：真正参与运行的是 <code>index.html</code>（骨架）、<code>style.css</code>（外观）、<code>script.js</code> 和 <code>taskUtils.js</code>（逻辑）。</p>
+<p><figure><img src="../assets/images/04-项目结构图.svg" alt="项目结构"><figcaption>项目结构</figcaption></figure></p>
+<h2 id="sec-5">3.2 教学案例：当 README 和实际运行不一致<a class="h-anchor" href="#sec-5">#</a></h2><div class="callout note"><span class="co-tag">要点</span>
+<p>这不是教程故意设计的陷阱——是这个开源项目里<strong>真实存在</strong>的矛盾。接下来每个环节都是工程现场的标准动作。</p>
+</div>
+<h3 id="sec-6">第 1 步：照说明做，观察异常<a class="h-anchor" href="#sec-6">#</a></h3><p>按 README 的说法，双击 <code>index.html</code>。页面打开了：</p>
+<p><figure><img src="../assets/images/03-file直开-看似正常实际失效.png" alt="file:// 直开"><figcaption>file:// 直开</figcaption></figure></p>
+<p>看起来好像正常？<strong>仔细看三处破绽</strong>：</p>
+<ol>
+<li>输入框里的提示文字是空的（README 描述的功能之一本应让这里有变化）；</li>
+<li>右下角赫然挂着 &quot;Clear completed (1)&quot; 按钮——什么任务都没有，哪来的已完成？</li>
+<li>输入任务按回车，<strong>没有任何反应</strong>。</li>
+</ol>
+<h3 id="sec-7">第 2 步：先提假设，不急着下结论<a class="h-anchor" href="#sec-7">#</a></h3><p>现象是&quot;页面能显示，但操作没反应&quot;。可能的假设有几种：</p>
+<ul>
+<li>假设 A：浏览器不行，换个浏览器试试？（先试 Edge 再试 Chrome——结果一样，排除）</li>
+<li>假设 B：文件下载不完整？（对比文件大小、重新解压——排除）</li>
+<li>假设 C：页面上有什么东西&quot;该加载却没加载&quot;？</li>
+</ul>
+<h3 id="sec-8">第 3 步：向 AI 提问（带证据）<a class="h-anchor" href="#sec-8">#</a></h3><p>这是第五章要系统练的技能，先实战一次。把<strong>现象 + 证据</strong>发给 AI：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">我从 GitHub 下载了一个任务管理器项目，README 说
+&quot;open index.html in any modern browser&quot;。
+我在 Windows 上双击 index.html，页面能显示：
+标题、输入框、按钮都在，但输入任务按回车没有任何反应，
+输入框里的提示文字也是空的。
+可能是什么原因？请给我排查方向。
+</code></pre></div><p>AI（任何一个都行）大概率会提示：<strong>打开浏览器开发者工具看 Console 有没有报错</strong>。</p>
+<h3 id="sec-9">第 4 步：用开发者工具拿到真凭实据<a class="h-anchor" href="#sec-9">#</a></h3><p>按 F12 打开 DevTools，切到 <strong>Console（控制台）</strong>，你会看到红色报错：</p>
+<p><figure><img src="../assets/images/03-devtools-CORS错误.png" alt="CORS 错误"><figcaption>CORS 错误</figcaption></figure></p>
+<p>报错的关键句是：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">Access to script at 'file:///D:/.../script.js' from origin 'null'
+has been blocked by CORS policy
+</code></pre></div><h3 id="sec-10">第 5 步：回源码找证据链<a class="h-anchor" href="#sec-10">#</a></h3><p>报错说 <code>script.js</code> 被拦了。打开 <code>index.html</code> 拉到最后几行：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">html</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-html">&lt;script type=&quot;module&quot; src=&quot;script.js&quot;&gt;&lt;/script&gt;
+</code></pre></div><p><code>type=&quot;module&quot;</code> 表示这是 ES 模块化的脚本，<code>script.js</code> 还要再 <code>import</code> 另一个文件 <code>taskUtils.js</code>。<strong>浏览器的安全策略规定：模块文件必须通过 <code>http://</code> 协议加载</strong>；用 <code>file://</code> 双击打开时，浏览器的&quot;来源（origin）&quot;是 <code>null</code>，跨来源加载被一律拦截（CORS 策略）。</p>
+<p>证据链闭合了：</p>
+<div class="callout note"><span class="co-tag">要点</span>
+<p>README 说&quot;直接打开&quot; → 实际 HTML/CSS 加载了但 JS 模块被 CORS 拦截 → 页面&quot;看似正常&quot;但功能全灭。</p>
+<p>结论：<strong>这个项目的 README 写法在带 <code>type=&quot;module&quot;</code> 的代码面前不成立</strong>——这不是你操作错了，是 README 落后于代码。</p>
+</div>
+<div class="callout tip"><span class="co-tag">彩蛋</span>
+<p><strong>彩蛋</strong>：README 的 &quot;Potential improvements&quot; 里还把 &quot;Unit tests&quot; 列为待改进项，可仓库里明明已经有 <code>script.test.js</code>。README 滞后于代码是开源项目的常态——<strong>README 是线索，不是圣旨</strong>。</p>
+</div>
+<h3 id="sec-11">第 6 步：采用最小解决方案<a class="h-anchor" href="#sec-11">#</a></h3><p>问题定位：&quot;模块必须走 http://&quot;。最小改动不是改代码（项目本身没问题），而是<strong>换一种打开方式</strong>：起一个本地服务器，让文件通过 <code>http://localhost</code> 访问。见 3.3。</p>
+<h3 id="sec-12">第 7 步：验证<a class="h-anchor" href="#sec-12">#</a></h3><p>服务器起来后再试：输入任务回车——任务出现了，右下角弹提示。<strong>同一个项目、没改一行代码，只是换了访问协议</strong>——这就是证据。</p>
+<h3 id="sec-13">第 8 步：总结可迁移的方法（重点背）<a class="h-anchor" href="#sec-13">#</a></h3><div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">README 说 X → 照着做 → 结果不对 → 别急着重装/改代码
+→ 先观察&quot;哪里不对&quot;（交互无响应？报错？空白？）
+→ 提出假设 → 问 AI 要&quot;排查方向&quot;而不是&quot;玄学方案&quot;
+→ 用开发者工具/源码拿证据 → 找最小解决路径 → 验证
+</code></pre></div><div class="callout note"><span class="co-tag">要点</span>
+<p><strong>判断&quot;真跑起来&quot;的标准</strong>：交互有预期反应 + Console 没有相关报错。两条都满足才算数——&quot;看起来正常&quot;不算证据（本例中 file:// 页面看起来就完全正常）。</p>
+</div>
+<p>这套流程以后遇到任何&quot;README 和实际对不上&quot;的项目都能用：文档过时、版本变更、平台差异、作者笔误，原因不同，查法相同。</p>
+<h2 id="sec-14">3.3 正确姿势：起一个本地服务器<a class="h-anchor" href="#sec-14">#</a></h2><p>办法有很多，本教程推荐 <code>python -m http.server</code>——Python 自带、不用装任何东西、一条命令搞定。</p>
+<p><strong>步骤：</strong></p>
+<ol>
+<li>
+<p>打开项目文件夹（比如 <code>D:\study\TaskFlow-40dcd30</code>）；</p>
+</li>
+<li>
+<p>在资源管理器地址栏输入 <code>cmd</code> 回车，直接在该目录打开命令行；</p>
+</li>
+<li>
+<p>输入命令（注意结尾的 <code>--bind 127.0.0.1</code>）：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">text</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-">python -m http.server 8765 --bind 127.0.0.1
+</code></pre></div></li>
+<li>
+<p>看到 <code>Serving HTTP on 127.0.0.1 port 8765</code> 就说明服务器起来了，<strong>这个黑窗口不能关</strong>：</p>
+<p><figure><img src="../assets/images/03-终端-本地服务器.png" alt="本地服务器终端"><figcaption>本地服务器终端</figcaption></figure></p>
+</li>
+<li>
+<p>浏览器访问 <code>http://127.0.0.1:8765/</code> 或 <code>http://localhost:8765/</code>（<code>localhost</code> 和 <code>127.0.0.1</code> 都指&quot;本机&quot;，8765 是端口号）。</p>
+</li>
+</ol>
+<p><strong>为什么加 <code>--bind 127.0.0.1</code>？</strong>——这是一个<strong>安全细节</strong>，也是好习惯：</p>
+<ul>
+<li>不加 <code>--bind</code> 时，<code>python -m http.server</code> 默认监听 <code>0.0.0.0</code>，意思是&quot;接受来自本机<strong>以及同一局域网内其他设备</strong>的访问&quot;。宿舍、实验室网络里，别人理论上能访问你开的这个文件夹网页；</li>
+<li>加 <code>--bind 127.0.0.1</code> 后，服务器<strong>只接受本机自己的连接</strong>——单人学习场景下这是正确的最小开放原则。</li>
+</ul>
+<p><strong>关于 Windows 防火墙弹窗</strong>：如果系统弹出&quot;是否允许 Python 访问网络&quot;，<strong>学习用途不需要点&quot;允许&quot;</strong>——<code>--bind 127.0.0.1</code> 只服务本机，不放行也不影响使用；误点了&quot;允许&quot;也不用慌，它只是把 Python 加进了放行列表，随时可以关闭服务器窗口并到&quot;Windows 安全中心 → 防火墙&quot;里改回来。<strong>原则：本地学习不要随手放行陌生程序联网</strong>——这条安全习惯比本项目本身重要。</p>
+<div class="callout tip"><span class="co-tag">备用方案</span>
+<p><strong>备用方案 A</strong>：装了 Node.js 的话，在项目目录运行 <code>npx http-server -p 8765 -a 127.0.0.1</code>（<code>-a</code> 同样是指定只监听本机）。
+<strong>备用方案 B</strong>：VS Code 装 &quot;Live Server&quot; 扩展后右键 <code>index.html</code> → &quot;Open with Live Server&quot;。本质相同：都是用 <code>http://</code> 代替 <code>file://</code>。</p>
+</div>
+<h2 id="sec-15">3.4 跑起来什么样？逐项验证<a class="h-anchor" href="#sec-15">#</a></h2><p>页面打开后，做一轮&quot;验收&quot;，确认真的跑起来了：</p>
+<div class="table-wrap"><table class="expect-table">
+<thead>
+<tr>
+<th>动作</th>
+<th>预期结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>刚打开页面</td>
+<td>空状态提示 &quot;No tasks yet...&quot;；输入框有打字机效果的提示语</td>
+</tr>
+<tr>
+<td>输入&quot;复习第三章&quot;回车</td>
+<td>任务出现在列表顶部 + 右下角 toast 提示 &quot;Task added.&quot;</td>
+</tr>
+</tbody>
+</table></div>
+<p><figure><img src="../assets/images/03-app-任务列表.png" alt="任务列表"><figcaption>任务列表</figcaption></figure>
+<figure><img src="../assets/images/03-app-toast提示.png" alt="toast 提示"><figcaption>toast 提示</figcaption></figure></p>
+<p>再试试这些交互，全部有反应才算通过：</p>
+<ul>
+<li>
+<p>点任务左边的圆圈 → 划线变灰，完成数 +1；</p>
+</li>
+<li>
+<p>点 &quot;Completed&quot; 筛选 → 只剩已完成的：</p>
+<p><figure><img src="../assets/images/03-app-已完成筛选.png" alt="已完成筛选"><figcaption>已完成筛选</figcaption></figure></p>
+</li>
+<li>
+<p>顶部搜索框输入关键词 → 匹配文字高亮：</p>
+<p><figure><img src="../assets/images/03-app-搜索高亮.png" alt="搜索高亮"><figcaption>搜索高亮</figcaption></figure></p>
+</li>
+<li>
+<p>双击任务文字 → 进入编辑模式：</p>
+<p><figure><img src="../assets/images/03-app-编辑模式.png" alt="编辑模式"><figcaption>编辑模式</figcaption></figure></p>
+</li>
+<li>
+<p><strong>刷新页面（F5）→ 任务还在！</strong> 数据存哪了？按 F12 → Console，输入：</p>
+<div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">localStorage.taskflow_tasks
+</code></pre></div><p>能看到一个 JSON 字符串，里面就是你的任务数据：</p>
+<p><figure><img src="../assets/images/03-devtools-localStorage.png" alt="localStorage"><figcaption>localStorage</figcaption></figure></p>
+</li>
+</ul>
+<p><code>localStorage</code> 是浏览器内置的小型存储空间，每个网站单独一份，刷新、关浏览器都不丢（除非主动清缓存）。第四章会追到代码里看它怎么被读写。</p>
+<h2 id="sec-16">3.5 用 VS Code 打开项目（推荐）<a class="h-anchor" href="#sec-16">#</a></h2><p>写代码需要一个看得顺眼的编辑器，免费首选 <a href="https://code.visualstudio.com/" target="_blank" rel="noopener" class="ext">VS Code</a>（官网免费下载）。打开方式：File → Open Folder → 选项目文件夹。</p>
+<p>第一次打开会弹 &quot;<strong>Do you trust the authors of the files in this folder?</strong>&quot;：</p>
+<p><figure><img src="../assets/images/03-vscode-信任提示.png" alt="VS Code 信任提示"><figcaption>VS Code 信任提示</figcaption></figure></p>
+<p>这是 VS Code 的安全机制——防止陌生文件夹里的脚本自动执行。确认是你自己下载的项目后点 &quot;Yes, I trust the authors&quot;（不点信任也能看代码，只是部分功能受限）。</p>
+<p>信任后看到正常的文件树界面：</p>
+<p><figure><img src="../assets/images/03-vscode-打开文件夹.png" alt="VS Code 项目视图"><figcaption>VS Code 项目视图</figcaption></figure></p>
+<h2 id="sec-17">3.6 保存&quot;基线状态&quot;<a class="h-anchor" href="#sec-17">#</a></h2><p>跑通之后，<strong>先别急着改</strong>。做两件事：</p>
+<ol>
+<li><strong>备份</strong>：把 <code>TaskFlow-40dcd30</code> 整个文件夹复制一份放着（比如 <code>TaskFlow-原版备份</code>）。改坏了随时能还原；</li>
+<li><strong>记录基线行为</strong>：列个清单——添加/编辑/完成/删除任务、筛选、搜索、拖拽、刷新后数据还在。这是第七章&quot;回归测试&quot;的对照标准：改完代码后，这些老功能必须全部依然正常。</li>
+</ol>
+<h2 id="sec-18">常见失败及处理<a class="h-anchor" href="#sec-18">#</a></h2><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>现象</th>
+<th>原因与处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>python</code> 不是内部或外部命令</td>
+<td>Python 没装或没加 PATH：重装并勾选 &quot;Add Python to PATH&quot;，或改用 <code>npx http-server</code> / Live Server</td>
+</tr>
+<tr>
+<td>访问 127.0.0.1 显示&quot;无法连接&quot;</td>
+<td>服务器窗口被关了 / 端口号记错了。确认黑窗口还在、端口一致</td>
+</tr>
+<tr>
+<td><code>Address already in use</code></td>
+<td>端口被占用：换个端口如 <code>python -m http.server 8888 --bind 127.0.0.1</code></td>
+</tr>
+<tr>
+<td>页面空白 + Console 报 404</td>
+<td>进错目录了：服务器要在<strong>含 index.html 的那层目录</strong>里启动</td>
+</tr>
+<tr>
+<td>能打开但输入没反应</td>
+<td>多半还是 file:// 双击打开的——检查地址栏必须以 <code>http://</code> 开头（127.0.0.1 或 localhost）</td>
+</tr>
+<tr>
+<td>弹过防火墙提示</td>
+<td>用 <code>--bind 127.0.0.1</code> 时不需要放行；不放行也能用</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="sec-19">本章 AI 提问示例<a class="h-anchor" href="#sec-19">#</a></h2><div class="ai-questions-section">
+<ul>
+<li>「README 让我 <code>start index.html</code> 直接打开，但浏览器 Console 报错 <code>Access to script at 'file:///...' from origin 'null' has been blocked by CORS policy</code>，script 标签是 <code>type=&quot;module&quot;</code>。请解释：为什么 README 的说法在这个项目里不成立？」<button class="qcopy" type="button">复制这条提问</button></li>
+<li>「<code>python -m http.server 8765 --bind 127.0.0.1</code> 这条命令每个部分什么意思？<code>--bind 127.0.0.1</code> 和不加有什么区别？」<button class="qcopy" type="button">复制这条提问</button></li>
+<li>「我在 Windows 上启动了本地服务器，浏览器访问 127.0.0.1:8765 提示无法连接，命令行没有报错。帮我列排查顺序。」<button class="qcopy" type="button">复制这条提问</button></li>
+</ul>
+</div>
+<div class="verify-box"><span class="box-tag">自检问题 · 勾选状态仅保存在你的浏览器</span>
+<ul class="task-list">
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能完整复述&quot;README 不一致&quot;排查流程的 8 步；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">说出为什么 <code>file://</code> 双击打不开本项目（哪几个因素叠加）；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能不看教程启动本地服务器（含 <code>--bind</code>）并访问到页面；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">能区分&quot;真跑起来&quot;和&quot;假跑起来&quot;的两条判断标准；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">知道 <code>--bind 127.0.0.1</code> 的作用，以及为什么不随意放行防火墙；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">知道任务数据存在 <code>localStorage</code> 的哪个 key 下；</span></li>
+<li><input type="checkbox" class="persist" disabled> <span class="task-text">已做好原版备份。</span></li>
+</ul>
+</div>
+<div class="verify-box"><span class="box-tag">过关标准</span>
+<ul>
+<li>关掉所有窗口，从零开始：开终端 → 启动服务器 → 浏览器访问 → 添加任务 → 刷新 → 任务还在 → DevTools Console 里找到它，全程不卡壳；</li>
+<li>能向人解释：如果 README 让你直接双击打开，为什么对这个项目行不通。</li>
+</ul>
+</div>
+<hr>
+<p><strong>上一章：<a href="ch02.html">第二章</a> ｜ 下一章：<a href="ch04.html">第四章：利用AI快速理解陌生项目</a></strong></p>
+
+<div class="done-bar"><button id="markDone" type="button">标记本章为已完成</button><span class="hint">完成状态仅保存在本机浏览器，不上传任何数据。</span></div>
+<nav class="pager"><a href="ch02.html"><span class="lbl">← 上一篇</span>第二章：第一次认识 GitHub</a><a class="next" href="ch04.html"><span class="lbl">下一篇 →</span>第四章：利用 AI 快速理解陌生项目</a></nav>
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">学习目标</a><a href="#sec-3" class="h2">开始前需要</a><a href="#sec-4" class="h2">3.1 先找到"入口文件"——照 README 说的做</a><a href="#sec-5" class="h2">3.2 教学案例：当 README 和实际运行不一致</a><a href="#sec-6" class="h3">第 1 步：照说明做，观察异常</a><a href="#sec-7" class="h3">第 2 步：先提假设，不急着下结论</a><a href="#sec-8" class="h3">第 3 步：向 AI 提问（带证据）</a><a href="#sec-9" class="h3">第 4 步：用开发者工具拿到真凭实据</a><a href="#sec-10" class="h3">第 5 步：回源码找证据链</a><a href="#sec-11" class="h3">第 6 步：采用最小解决方案</a><a href="#sec-12" class="h3">第 7 步：验证</a><a href="#sec-13" class="h3">第 8 步：总结可迁移的方法（重点背）</a><a href="#sec-14" class="h2">3.3 正确姿势：起一个本地服务器</a><a href="#sec-15" class="h2">3.4 跑起来什么样？逐项验证</a><a href="#sec-16" class="h2">3.5 用 VS Code 打开项目（推荐）</a><a href="#sec-17" class="h2">3.6 保存"基线状态"</a><a href="#sec-18" class="h2">常见失败及处理</a><a href="#sec-19" class="h2">本章 AI 提问示例</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

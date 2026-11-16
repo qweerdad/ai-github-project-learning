@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>练习 B 参考答案：相对创建时间 · AI时代GitHub开源项目实践教程</title>
+
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/answer-b.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="current warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<div class="callout spoiler"><span class="co-tag">⚠ 参考答案</span><p>本页是练习的<strong>参考答案</strong>。强烈建议先独立完成练习、对照自检表自评后再看——先翻答案等于跳过了本课程最重要的一步。</p></div><h1 id="sec-1">练习 B 参考答案：相对创建时间<a class="h-anchor" href="#sec-1">#</a></h1><div class="callout note"><span class="co-tag">说明</span>
+<p><strong>参考答案</strong>。先独立完成，再对照思路差距。</p>
+</div>
+<h2 id="sec-2">关键决策点（评学生的重点）<a class="h-anchor" href="#sec-2">#</a></h2><ol>
+<li><strong>函数放哪</strong>：相对时间格式化是<strong>纯函数</strong>（输入时间→输出字符串），放 <code>taskUtils.js</code>，和 <code>formatDueDate</code> 并列——这是分层考点；</li>
+<li><strong>HTML 组装放哪</strong>：<code>buildXxxHtml</code> 放 <code>script.js</code>，和 <code>buildDueDateHtml</code> 并列；</li>
+<li><strong>旧数据兼容</strong>：<code>createdAt</code> 在 <code>createTask</code> 里一直存在，但理论上仍要做 <code>task.createdAt ? ... : ''</code> 的兜底（防御性）；</li>
+<li><strong>需求边界</strong>：学生是否自己定了&quot;just now/分钟/小时/天/超期&quot;的规则，而不是模糊一句&quot;显示时间&quot;。</li>
+</ol>
+<h2 id="sec-3">参考实现<a class="h-anchor" href="#sec-3">#</a></h2><h3 id="sec-4">① taskUtils.js：加一个 <code>formatRelativeTime</code><a class="h-anchor" href="#sec-4">#</a></h3><div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">function formatRelativeTime(isoString) {
+    if (!isoString) return '';
+    const then = new Date(isoString);
+    const diffMs = Date.now() - then;
+    const mins  = Math.floor(diffMs / 60000);
+    const hours = Math.floor(mins / 60);
+    const days  = Math.floor(hours / 24);
+    if (mins &lt; 1)   return 'just now';
+    if (mins &lt; 60)  return `${mins} min ago`;
+    if (hours &lt; 24) return `${hours} hour${hours &gt; 1 ? 's' : ''} ago`;
+    if (days &lt; 7)   return `${days} day${days &gt; 1 ? 's' : ''} ago`;
+    return then.toLocaleDateString();   // 超 7 天显示日期（按学生定的规则）
+}
+</code></pre></div><div class="callout note"><span class="co-tag">说明</span>
+<p>注意导入处：<code>script.js</code> 顶部的 import 列表要把 <code>formatRelativeTime</code> 加进去。</p>
+</div>
+<h3 id="sec-5">② script.js：加 <code>buildCreatedAtHtml</code> 并在 <code>createTaskElement</code> 里调用<a class="h-anchor" href="#sec-5">#</a></h3><div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">function buildCreatedAtHtml(task) {
+    const rel = formatRelativeTime(task.createdAt);
+    return rel ? `&lt;span class=&quot;task-created&quot;&gt;${escapeHtml(rel)}&lt;/span&gt;` : '';
+}
+</code></pre></div><p>在 <code>buildDueDateHtml(task)</code> 附近插入 <code>${buildCreatedAtHtml(task)}</code>。</p>
+<h3 id="sec-6">③ style.css：给 <code>.task-created</code> 一个小字号灰色样式（仿 <code>.task-due-date</code>）。<a class="h-anchor" href="#sec-6">#</a></h3><h3 id="sec-7">④ script.test.js：单测这个纯函数<a class="h-anchor" href="#sec-7">#</a></h3><div class="code-wrap"><div class="code-head"><span class="lang">js</span><button class="copy-btn" type="button">复制</button></div><pre><code class="lang-js">it('formatRelativeTime returns &quot;just now&quot; for recent timestamps', () =&gt; {
+    expect(formatRelativeTime(new Date().toISOString())).toBe('just now');
+});
+it('formatRelativeTime handles hours and days', () =&gt; {
+    const h3 = new Date(Date.now() - 3*3600e3).toISOString();
+    expect(formatRelativeTime(h3)).toBe('3 hours ago');
+});
+</code></pre></div><h2 id="sec-8">验收对照<a class="h-anchor" href="#sec-8">#</a></h2><ul>
+<li>新任务 → &quot;just now&quot;；改 <code>createdAt</code> 为 3h/3d 前 → 对应文案；</li>
+<li>无 <code>createdAt</code> 的任务 → 空字符串不报错；</li>
+<li>单测通过、老测试不挂。</li>
+</ul>
+<h2 id="sec-9">常见错误<a class="h-anchor" href="#sec-9">#</a></h2><div class="table-wrap"><table class="">
+<thead>
+<tr>
+<th>错误</th>
+<th>点评</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>函数写进 script.js</td>
+<td>纯逻辑进 UI 文件——分层不过关</td>
+</tr>
+<tr>
+<td>没加 import</td>
+<td>改 taskUtils 却忘了 script 顶部 import，运行时 <code>is not defined</code>——好教学点</td>
+</tr>
+<tr>
+<td>显示成 &quot;NaN ago&quot;</td>
+<td><code>createdAt</code> 没判空，旧数据/坏数据一来就崩——旧数据兼容考点</td>
+</tr>
+<tr>
+<td>比较用字符串直接相减</td>
+<td><code>createdAt</code> 是 ISO 字符串，必须 <code>new Date()</code> 转——类型意识</td>
+</tr>
+</tbody>
+</table></div>
+<hr>
+<p><em>学生如选了&quot;始终显示 X days ago&quot;等其他合理规则，只要需求自定、实现正确即可。</em></p>
+
+
+
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"><div class="toc-title">本页目录</div><a href="#sec-2" class="h2">关键决策点（评学生的重点）</a><a href="#sec-3" class="h2">参考实现</a><a href="#sec-4" class="h3">① taskUtils.js：加一个 `formatRelativeTime`</a><a href="#sec-5" class="h3">② script.js：加 `buildCreatedAtHtml` 并在 `createTaskElement` 里调用</a><a href="#sec-6" class="h3">③ style.css：给 `.task-created` 一个小字号灰色样式（仿 `.task-due-date`）。</a><a href="#sec-7" class="h3">④ script.test.js：单测这个纯函数</a><a href="#sec-8" class="h2">验收对照</a><a href="#sec-9" class="h2">常见错误</a></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>

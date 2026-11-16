@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>改动对照 diff · AI时代GitHub开源项目实践教程</title>
+
+<script>try{var t=localStorage.getItem('tfc-theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body data-page="chapters/diff.html">
+<header class="topbar">
+  <button id="menuBtn" class="icon-btn" aria-label="目录">☰</button>
+  <a class="site-title" href="../index.html">📘 AI时代GitHub开源项目实战</a>
+  <span class="ver">免费体验版</span>
+  <span class="spacer"></span>
+  <button id="themeBtn" class="icon-btn"><span class="ti">🌙</span><span class="tt">深色</span></button>
+</header>
+<div id="readbar"></div>
+<div class="scrim" id="scrim"></div>
+<div class="layout">
+  <aside class="sidebar" id="sidebar"><div class="nav-group keep-open" data-g="start"><div class="nav-head"><span class="caret">▼</span>开始学习</div><div class="nav-items"><a href="../index.html">课程首页</a><a href="course-info.html">课程说明</a><a href="faq.html">遇到问题怎么办</a></div></div><div class="nav-group keep-open" data-g="ch"><div class="nav-head"><span class="caret">▼</span>八章正文</div><div class="nav-items"><a href="ch01.html"><span class="num">1</span>第1章 学习观<span class="nav-done" data-p="chapters/ch01.html"></span></a><a href="ch02.html"><span class="num">2</span>第2章 认识GitHub<span class="nav-done" data-p="chapters/ch02.html"></span></a><a href="ch03.html"><span class="num">3</span>第3章 跑起项目<span class="nav-done" data-p="chapters/ch03.html"></span></a><a href="ch04.html"><span class="num">4</span>第4章 读懂项目<span class="nav-done" data-p="chapters/ch04.html"></span></a><a href="ch05.html"><span class="num">5</span>第5章 向AI提问<span class="nav-done" data-p="chapters/ch05.html"></span></a><a href="ch06.html"><span class="num">6</span>第6章 二次开发<span class="nav-done" data-p="chapters/ch06.html"></span></a><a href="ch07.html"><span class="num">7</span>第7章 验证代码<span class="nav-done" data-p="chapters/ch07.html"></span></a><a href="ch08.html"><span class="num">8</span>第8章 迁移方法<span class="nav-done" data-p="chapters/ch08.html"></span></a></div></div><div class="nav-group keep-open" data-g="ex"><div class="nav-head"><span class="caret">▼</span>学生练习</div><div class="nav-items"><a href="exercises.html">练习总览</a><a href="exercise-a.html"><span class="num">A</span>练习A 筛选按钮</a><a href="exercise-b.html"><span class="num">B</span>练习B 相对时间</a><a href="exercise-c.html"><span class="num">C</span>练习C 迁移项目</a><a href="exercise-d.html"><span class="num">D</span>练习D 按需学习</a><a href="checklist.html">全程自检表</a></div></div><div class="nav-group keep-open" data-g="ai"><div class="nav-head"><span class="caret">▼</span>AI 提问示例</div><div class="nav-items"><a href="ai-index.html">示例库导读</a><a href="ai-01.html">01 看不懂目录</a><a href="ai-02.html">02 找不到功能</a><a href="ai-03.html">03 遇到报错</a><a href="ai-04.html">04 讨论方案</a><a href="ai-05.html">05 大段重写</a><a href="ai-06.html">06 AI编造</a><a href="ai-07.html">07 README矛盾</a></div></div><div class="nav-group keep-open" data-g="ans"><div class="nav-head"><span class="caret">▼</span>参考答案（慎入）</div><div class="nav-items"><a href="answer-a.html" class="warn-link">⚠ 练习A答案</a><a href="answer-b.html" class="warn-link">⚠ 练习B答案</a></div></div><div class="nav-group keep-open" data-g="res"><div class="nav-head"><span class="caret">▼</span>资源与许可</div><div class="nav-items"><a href="license.html">来源与许可</a><a href="downloads.html">下载中心</a><a href="diff.html" class="current">改动对照 diff</a></div></div></aside>
+  <main class="main"><div class="article-wrap"><article>
+<h1>二次开发改动对照（changes.diff）</h1>
+<div class="callout note"><span class="co-tag">怎么读</span><p><span style="color:var(--ok)">绿色 +</span> 是新增行，<span style="color:var(--err)">红色 −</span> 是删除行，<span style="color:var(--ai)">紫色 @@</span> 是改动位置标记。这是"任务备注"功能相对原版的全部改动（4 个文件，index.html 未变）。第六章完成后可对照此页自查。</p></div>
+<div class="code-wrap diff"><div class="code-head"><span class="lang">diff · changes.diff</span><button class="copy-btn" type="button">复制</button></div><pre><code><span class="d-meta">--- a/taskUtils.js</span>
+<span class="d-meta">+++ b/taskUtils.js</span>
+<span class="d-hunk">@@ -12,6 +12,7 @@</span>
+<span>         completed: false,</span>
+<span>         priority,</span>
+<span>         dueDate,</span>
+<span class="d-add">+        note: '',</span>
+<span>         createdAt: new Date().toISOString(),</span>
+<span>     };</span>
+<span> }</span>
+<span class="d-hunk">@@ -30,7 +31,9 @@</span>
+<span>     }</span>
+<span>     if (query) {</span>
+<span>         const q = query.toLowerCase();</span>
+<span class="d-del">-        filtered = filtered.filter((t) =&gt; t.text.toLowerCase().includes(q));</span>
+<span class="d-add">+        filtered = filtered.filter(</span>
+<span class="d-add">+            (t) =&gt; t.text.toLowerCase().includes(q) || (t.note || '').toLowerCase().includes(q)</span>
+<span class="d-add">+        );</span>
+<span>     }</span>
+<span>     return filtered;</span>
+<span> }</span>
+<span class="d-meta">--- a/script.js</span>
+<span class="d-meta">+++ b/script.js</span>
+<span class="d-hunk">@@ -25,6 +25,7 @@</span>
+<span> let currentFilter = 'all';</span>
+<span> let searchQuery = '';</span>
+<span> let editingTaskId = null;</span>
+<span class="d-add">+let editingNoteTaskId = null;</span>
+<span> let draggedTaskId = null;</span>
+<span> let searchDebounceTimer = null;</span>
+<span> </span>
+<span class="d-hunk">@@ -165,6 +166,34 @@</span>
+<span>     renderTasks();</span>
+<span> }</span>
+<span> </span>
+<span class="d-add">+function startEditNote(id) {</span>
+<span class="d-add">+    editingNoteTaskId = id;</span>
+<span class="d-add">+    renderTasks();</span>
+<span class="d-add">+    const noteInput = document.querySelector('.task-note-input');</span>
+<span class="d-add">+    if (noteInput) {</span>
+<span class="d-add">+        noteInput.focus();</span>
+<span class="d-add">+        noteInput.select();</span>
+<span class="d-add">+    }</span>
+<span class="d-add">+}</span>
+<span class="d-add">+</span>
+<span class="d-add">+function saveNoteTask(id, newNote) {</span>
+<span class="d-add">+    if (editingNoteTaskId !== id) return;</span>
+<span class="d-add">+    const task = tasks.find((t) =&gt; t.id === id);</span>
+<span class="d-add">+    const trimmedNote = newNote.trim();</span>
+<span class="d-add">+    if (task &amp;&amp; (task.note || '') !== trimmedNote) {</span>
+<span class="d-add">+        task.note = trimmedNote;</span>
+<span class="d-add">+        saveTasks();</span>
+<span class="d-add">+        showToast(trimmedNote ? 'Note saved.' : 'Note removed.', 'info');</span>
+<span class="d-add">+    }</span>
+<span class="d-add">+    editingNoteTaskId = null;</span>
+<span class="d-add">+    renderTasks();</span>
+<span class="d-add">+}</span>
+<span class="d-add">+</span>
+<span class="d-add">+function cancelEditNote() {</span>
+<span class="d-add">+    editingNoteTaskId = null;</span>
+<span class="d-add">+    renderTasks();</span>
+<span class="d-add">+}</span>
+<span class="d-add">+</span>
+<span> function clearCompleted() {</span>
+<span>     const completedCount = tasks.filter((t) =&gt; t.completed).length;</span>
+<span>     if (completedCount === 0) return;</span>
+<span class="d-hunk">@@ -222,8 +251,8 @@</span>
+<span>     try {</span>
+<span>         const stored = localStorage.getItem(STORAGE_KEY);</span>
+<span>         if (stored) {</span>
+<span class="d-del">-            // Normalize: ensure all tasks have the dueDate field</span>
+<span class="d-del">-            tasks = JSON.parse(stored).map((t) =&gt; ({ dueDate: null, ...t }));</span>
+<span class="d-add">+            // Normalize: ensure all tasks have the dueDate and note fields</span>
+<span class="d-add">+            tasks = JSON.parse(stored).map((t) =&gt; ({ dueDate: null, note: '', ...t }));</span>
+<span>         }</span>
+<span>     } catch (error) {</span>
+<span>         console.error('Failed to load tasks:', error);</span>
+<span class="d-hunk">@@ -382,6 +411,20 @@</span>
+<span>                 &lt;/span&gt;</span>
+<span>                 ${buildDueDateHtml(task)}</span>
+<span>             &lt;/span&gt;</span>
+<span class="d-add">+            &lt;div class=&quot;task-note${task.note ? ' has-note' : ''}&quot;&gt;</span>
+<span class="d-add">+                ${</span>
+<span class="d-add">+                    editingNoteTaskId === task.id</span>
+<span class="d-add">+                        ? `&lt;input</span>
+<span class="d-add">+                            type=&quot;text&quot;</span>
+<span class="d-add">+                            class=&quot;task-note-input&quot;</span>
+<span class="d-add">+                            value=&quot;${escapeAttr(task.note || '')}&quot;</span>
+<span class="d-add">+                            placeholder=&quot;Type a note, Enter to save&quot;</span>
+<span class="d-add">+                            maxlength=&quot;200&quot;</span>
+<span class="d-add">+                            aria-label=&quot;Task note&quot;</span>
+<span class="d-add">+                        &gt;`</span>
+<span class="d-add">+                        : `&lt;button type=&quot;button&quot; class=&quot;task-note-preview&quot; title=&quot;Click to add or edit a note&quot;&gt;${task.note ? escapeHtml(task.note) : '&lt;span class=&quot;note-hint&quot;&gt;Add note…&lt;/span&gt;'}&lt;/button&gt;`</span>
+<span class="d-add">+                }</span>
+<span class="d-add">+            &lt;/div&gt;</span>
+<span>             &lt;div class=&quot;task-actions&quot;&gt;</span>
+<span>                 &lt;button class=&quot;edit-btn&quot; aria-label=&quot;Edit task&quot; title=&quot;Edit task&quot;&gt;</span>
+<span>                     &lt;svg width=&quot;14&quot; height=&quot;14&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;2&quot; stroke-linecap=&quot;round&quot;&gt;</span>
+<span class="d-hunk">@@ -404,6 +447,24 @@</span>
+<span>         li.querySelector('.task-text').addEventListener('dblclick', () =&gt; startEditTask(task.id));</span>
+<span>         li.querySelector('.edit-btn').addEventListener('click', () =&gt; startEditTask(task.id));</span>
+<span>         li.querySelector('.delete-btn').addEventListener('click', () =&gt; deleteTask(task.id));</span>
+<span class="d-add">+</span>
+<span class="d-add">+        const notePreview = li.querySelector('.task-note-preview');</span>
+<span class="d-add">+        if (notePreview) {</span>
+<span class="d-add">+            notePreview.addEventListener('click', () =&gt; startEditNote(task.id));</span>
+<span class="d-add">+        }</span>
+<span class="d-add">+        const noteInput = li.querySelector('.task-note-input');</span>
+<span class="d-add">+        if (noteInput) {</span>
+<span class="d-add">+            noteInput.addEventListener('keydown', (e) =&gt; {</span>
+<span class="d-add">+                if (e.key === 'Enter') {</span>
+<span class="d-add">+                    e.preventDefault();</span>
+<span class="d-add">+                    saveNoteTask(task.id, noteInput.value);</span>
+<span class="d-add">+                } else if (e.key === 'Escape') {</span>
+<span class="d-add">+                    e.preventDefault();</span>
+<span class="d-add">+                    cancelEditNote();</span>
+<span class="d-add">+                }</span>
+<span class="d-add">+            });</span>
+<span class="d-add">+            noteInput.addEventListener('blur', () =&gt; saveNoteTask(task.id, noteInput.value));</span>
+<span class="d-add">+        }</span>
+<span>     }</span>
+<span> </span>
+<span>     return li;</span>
+<span class="d-hunk">@@ -553,7 +614,7 @@</span>
+<span>                 }</span>
+<span>             }</span>
+<span> </span>
+<span class="d-del">-            tasks = importedData.map((t) =&gt; ({ dueDate: null, ...t }));</span>
+<span class="d-add">+            tasks = importedData.map((t) =&gt; ({ dueDate: null, note: '', ...t }));</span>
+<span>             saveTasks();</span>
+<span>             renderTasks();</span>
+<span>             const label = tasks.length === 1 ? 'task' : 'tasks';</span>
+<span class="d-hunk">@@ -615,7 +676,7 @@</span>
+<span>     if (e.key === 'Escape') {</span>
+<span>         if (editingTaskId) {</span>
+<span>             cancelEditTask();</span>
+<span class="d-del">-        } else if (searchQuery) {</span>
+<span class="d-add">+        } else if (searchQuery &amp;&amp; !editingNoteTaskId) {</span>
+<span>             clearSearch();</span>
+<span>         }</span>
+<span>     }</span>
+<span class="d-meta">--- a/script.test.js</span>
+<span class="d-meta">+++ b/script.test.js</span>
+<span class="d-hunk">@@ -51,6 +51,10 @@</span>
+<span>         const b = createTask('Task B');</span>
+<span>         expect(a.id).not.toBe(b.id);</span>
+<span>     });</span>
+<span class="d-add">+</span>
+<span class="d-add">+    it('starts with an empty note', () =&gt; {</span>
+<span class="d-add">+        expect(createTask('Task').note).toBe('');</span>
+<span class="d-add">+    });</span>
+<span> });</span>
+<span> </span>
+<span> describe('filterTasks', () =&gt; {</span>
+<span class="d-hunk">@@ -99,6 +103,16 @@</span>
+<span>         filterTasks(tasks, 'active', '');</span>
+<span>         expect(tasks).toHaveLength(3);</span>
+<span>     });</span>
+<span class="d-add">+</span>
+<span class="d-add">+    it('matches the query against the note field too', () =&gt; {</span>
+<span class="d-add">+        const withNote = [</span>
+<span class="d-add">+            ...tasks,</span>
+<span class="d-add">+            { id: '4', text: 'Team meeting', completed: false, note: 'bring laptop' },</span>
+<span class="d-add">+        ];</span>
+<span class="d-add">+        const result = filterTasks(withNote, 'all', 'laptop');</span>
+<span class="d-add">+        expect(result).toHaveLength(1);</span>
+<span class="d-add">+        expect(result[0].id).toBe('4');</span>
+<span class="d-add">+    });</span>
+<span> });</span>
+<span> </span>
+<span> describe('escapeHtml', () =&gt; {</span>
+<span class="d-meta">--- a/style.css</span>
+<span class="d-meta">+++ b/style.css</span>
+<span class="d-hunk">@@ -502,6 +502,7 @@</span>
+<span> /* ---------- Task Item ---------- */</span>
+<span> .task-item {</span>
+<span>     display: flex;</span>
+<span class="d-add">+    flex-wrap: wrap;</span>
+<span>     align-items: center;</span>
+<span>     gap: 14px;</span>
+<span>     padding: 14px 18px;</span>
+<span class="d-hunk">@@ -1053,3 +1054,56 @@</span>
+<span>         display: none;</span>
+<span>     }</span>
+<span> }</span>
+<span class="d-add">+</span>
+<span class="d-add">+/* ---------- Task Note (tutorial feature) ---------- */</span>
+<span class="d-add">+/* 每个任务下方的一行备注：平时只读显示，点击进入编辑 */</span>
+<span class="d-add">+.task-note {</span>
+<span class="d-add">+    flex-basis: 100%;</span>
+<span class="d-add">+    margin: -6px 0 0 66px;</span>
+<span class="d-add">+    min-width: 0;</span>
+<span class="d-add">+}</span>
+<span class="d-add">+</span>
+<span class="d-add">+.task-note-preview {</span>
+<span class="d-add">+    display: block;</span>
+<span class="d-add">+    width: 100%;</span>
+<span class="d-add">+    padding: 0;</span>
+<span class="d-add">+    border: none;</span>
+<span class="d-add">+    background: none;</span>
+<span class="d-add">+    font: inherit;</span>
+<span class="d-add">+    font-size: 0.8rem;</span>
+<span class="d-add">+    line-height: 1.5;</span>
+<span class="d-add">+    color: var(--text-secondary);</span>
+<span class="d-add">+    text-align: left;</span>
+<span class="d-add">+    cursor: text;</span>
+<span class="d-add">+    white-space: nowrap;</span>
+<span class="d-add">+    overflow: hidden;</span>
+<span class="d-add">+    text-overflow: ellipsis;</span>
+<span class="d-add">+}</span>
+<span class="d-add">+</span>
+<span class="d-add">+.note-hint {</span>
+<span class="d-add">+    color: var(--text-muted);</span>
+<span class="d-add">+    font-style: italic;</span>
+<span class="d-add">+    opacity: 0.55;</span>
+<span class="d-add">+    transition: opacity var(--transition-fast);</span>
+<span class="d-add">+}</span>
+<span class="d-add">+</span>
+<span class="d-add">+.task-item:hover .note-hint {</span>
+<span class="d-add">+    opacity: 0.9;</span>
+<span class="d-add">+}</span>
+<span class="d-add">+</span>
+<span class="d-add">+.task-note-input {</span>
+<span class="d-add">+    width: 100%;</span>
+<span class="d-add">+    padding: 3px 8px;</span>
+<span class="d-add">+    font: inherit;</span>
+<span class="d-add">+    font-size: 0.8rem;</span>
+<span class="d-add">+    color: var(--text-primary);</span>
+<span class="d-add">+    background: var(--bg-secondary);</span>
+<span class="d-add">+    border: 1px solid var(--accent-primary);</span>
+<span class="d-add">+    border-radius: var(--radius-sm);</span>
+<span class="d-add">+    outline: none;</span>
+<span class="d-add">+}</span>
+<span class="d-add">+</span>
+<span class="d-add">+.task-item.completed .task-note-preview {</span>
+<span class="d-add">+    text-decoration: line-through;</span>
+<span class="d-add">+    color: var(--text-muted);</span>
+<span class="d-add">+}</span>
+</code></pre></div>
+
+
+  </article>
+  <div class="page-footer">AI时代GitHub开源项目实战 · 学生体验版 · 教程文档 CC BY-NC 4.0 · TaskFlow 代码 MIT · 进度与勾选仅存在你的浏览器</div>
+  </div></main>
+  <nav class="toc-rail"></nav>
+</div>
+<div class="lightbox" id="lightbox"><img alt=""><div class="cap"></div></div>
+<button id="toTop" class="icon-btn" aria-label="回到顶部">↑</button>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
